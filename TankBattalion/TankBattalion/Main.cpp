@@ -5,7 +5,7 @@
 
 
 int main() {
-	int nose = 1;
+	
 	Mapa imprimir;
 	
 	imprimir.OcultarCursor();
