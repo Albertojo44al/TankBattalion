@@ -13,4 +13,6 @@ public:
 	void MarcarMapa();
 	void Mover();
 	void Marcador();
+	void Limites();
+	void OcultarCursor();
 };

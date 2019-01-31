@@ -7,13 +7,13 @@
 int main() {
 	int nose = 1;
 	Mapa imprimir;
-	imprimir.gotoxy(10, 10); printf("%c%c",219,219);
-	imprimir.gotoxy(10, 11); printf("%c%c >", 219, 219);
-	imprimir.gotoxy(10, 12); printf("%c%c", 219, 219);
-
+	
+	imprimir.OcultarCursor();
 
 	imprimir.MarcarMapa();
+	
 	imprimir.Marcador();
+	imprimir.Mover();
 
 	
 	system("pause > null");

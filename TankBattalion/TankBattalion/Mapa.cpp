@@ -32,12 +32,52 @@ void Mapa::MarcarMapa() {
 	gotoxy(95, 27); printf("%c", 188);
 
 }
+void Mapa::Limites() {
+	
+}
 
+void Mapa::OcultarCursor() {
+	HANDLE hCon;
+	hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cci;
+	cci.dwSize = 2;
+	cci.bVisible = FALSE;
+
+	 SetConsoleCursorInfo(hCon,&cci);
+}
 void Mapa::Mover() {
-	if (_kbhit()) {
-		unsigned char tecla = _getch();
-
+	int x = 10, y = 10;
+	gotoxy(x, y); printf("%c%c>", 219, 219);
+	bool gameOver = false;
+	while (!gameOver) { 
+		if (_kbhit()) {
+			unsigned char tecla = _getch();
+			gotoxy(x, y+1); printf("    ");
+			gotoxy(x, y); printf("    ");
+			gotoxy(x, y-1); printf("    ");
+			if (tecla == 'a') {
+				x--;
+				gotoxy(x, y); printf("<%c%c%c", 219, 219,219);
+			}
+			if (tecla == 'd') {
+				x++;
+				gotoxy(x, y); printf("%c%c%c>", 219,219, 219);
+			}
+			if (tecla == 's') { 
+				y++; 
+				gotoxy(x+1, y+1); printf("v");
+				gotoxy(x, y); printf("%c%c%c", 219, 219,219);
+			}
+			if (tecla == 'w') { 
+				y--;
+				gotoxy(x, y); printf("%c%c%c", 219, 219,219);
+				gotoxy(x+1, y - 1); printf("^");
+			}
+		
+		}
+		Sleep(30);
 	}
+	
 }
 
 void Mapa::Marcador() {
