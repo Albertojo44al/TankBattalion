@@ -194,7 +194,6 @@ void Mapa::Inicio() {
 	sal = 1;
 
 	do {
-		tecla = _getch();
 		if (tecla == 'w') {
 			gotoxy(31, 10); printf(">");
 			gotoxy(31, 12); printf(" ");
