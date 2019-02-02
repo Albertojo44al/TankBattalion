@@ -9,8 +9,10 @@ class Mapa {
 	int vidas;//vidas tanque 1
 	int x2, y2;//cordenadas tanque 2
 	int vidas2;// vidas tanque 2
+
+	int move = 1, move2 = 0; // Extras para el menu 
 public:
-	int pos = 1, sal = 1, tecla;
+	int pos = 1, sal = 1,tecla;//Inicio
 	class Mapa(int _x, int _y, int _vidas): x(_x),y(_y),vidas(_vidas){}
 	class Mapa(){}
 	void gotoxy(int, int);
@@ -29,4 +31,5 @@ public:
 
 	//Inicio
 	void Inicio();
+	void Logo();
 };
