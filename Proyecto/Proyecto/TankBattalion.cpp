@@ -2,7 +2,6 @@
 
 #include<conio.h>
 #include<windows.h>
-
 #include<stdio.h>
 
 int a, d, w, s, l;//teclas
@@ -41,8 +40,26 @@ void gotoxy(int x, int y) {
 	dwpos.Y = y;
 	SetConsoleCursorPosition(hcon, dwpos);
 }
+void Logo() {
+	gotoxy(120, 15); printf(" ************       ******       ******      ***  ***   ***  ");
+	gotoxy(120, 16); printf(" ************      ***  ***      *** ***     ***  ***  ***   ");
+	gotoxy(120, 17); printf("     ***          ***    ***     ***  ***    ***  ******     ");
+	gotoxy(120, 18); printf("     ***         ************    ***   ***   ***  ******     ");
+	gotoxy(120, 19); printf("     ***        **************   ***    ***  ***  ***  ***   ");
+	gotoxy(120, 20); printf("     ***       ***          ***  ***     *** ***  ***   ***  ");
+	gotoxy(120, 21); printf("     ***      ***            *** ***      ******  ***    *** ");
+
+	gotoxy(115, 23); printf(" ********         ******       ************ ************ ***          ************ ");
+	gotoxy(115, 24); printf(" ***   ***       ***  ***      ************ ************ ***          ************ ");
+	gotoxy(115, 25); printf(" ***  ***       ***    ***         ***          ***      ***          ***           ");
+	gotoxy(115, 26); printf(" *******       ************        ***          ***      ***          ********* ");
+	gotoxy(115, 27); printf(" ***  ***     **************       ***          ***      ***          ***          ");
+	gotoxy(115, 28); printf(" ***   ***   ***          ***      ***          ***      ************ ************ ");
+	gotoxy(115, 29); printf(" ********   ***            ***     ***          ***      ************ ************ ");
+}
 
 void inicio() {
+	Logo();
 	level = 1;
 	vidas = 5;
 	gotoxy(40, 20); printf("INICIAR");
@@ -96,10 +113,10 @@ void inicio() {
 void nivel() {
 	if (enemigos == tanques) {
 		tanques = 0;
-		if(level == 3 || level == 5)
-			enemigos += 1;
 		level++;
 		vidas++;
+		if(level == 2 || level == 4)
+			enemigos += 1;
 	}
 }
 
@@ -147,13 +164,29 @@ void Puntuacion() {
 		score += 360;
 }
 
+//Borrar
+void Borrar() {
+	gotoxy(xt, yt); printf("     ");
+	gotoxy(xt, yt + 1); printf("     ");
+
+}
+
+void borrarn() {
+	gotoxy(xn, yn); printf("     ");
+	gotoxy(xn, yn + 1); printf("     ");
+}
+
+void borrarn2() {
+	gotoxy(xn2, yn2); printf("     ");
+	gotoxy(xn2, yn2 + 1); printf("     ");
+}
+//Direccion de las balas
 void checabala() {
 	if (xb == xn && yb == yn +1|| xb == xn  && yb == yn  ||xb == xn +3 && yb == yn + 1 || xb == xn + 3 && yb == yn || xb == xn + 1 && yb == yn + 1 || xb == xn + 1 && yb == yn || xb == xn + 2 && yb == yn + 1 || xb == xn + 2 && yb == yn) {
 		tanques++;
 		Puntuacion();
 
-			gotoxy(xn, yn); printf("     ");
-			gotoxy(xn, yn + 1); printf("     ");
+		borrarn();
 			xn = 10;
 			yn = 18;
 			xb = 0;
@@ -166,8 +199,7 @@ void checabala() {
 		tanques++;
 		Puntuacion();
 		
-			gotoxy(xn2, yn2); printf("     ");
-			gotoxy(xn2, yn2 + 1); printf("     ");
+		borrarn2();
 			xn2 = 45;
 			yn2 = 18;
 			xb = 0;
@@ -229,8 +261,7 @@ void movern2() {//Tanque enemigo2
 	velo++;
 	if (xvi > 30 && xvi < 40 && xn2 < 90 && velo == 5) {
 		//borrar
-		gotoxy(xn2, yn2); printf("    ");
-		gotoxy(xn2, yn2+1); printf("    ");
+		borrarn2();
 		xn2++;
 		diren2 = 0;
 		//dibujarw
@@ -238,8 +269,7 @@ void movern2() {//Tanque enemigo2
 	}
 	if (xvi > 20 && xvi < 30 && xn2 > 4 && velo == 5) {
 		//borrar
-		gotoxy(xn2, yn2); printf("    ");
-		gotoxy(xn2, yn2+1); printf("    ");
+		borrarn2();
 		xn2--;
 		diren2 = 1;
 		//dibujar
@@ -247,8 +277,7 @@ void movern2() {//Tanque enemigo2
 	}
 	if (xvi > 10 && xvi < 19 && yn2 < 40 && velo == 5) {
 		//borrar
-		gotoxy(xn2, yn2); printf("    ");
-		gotoxy(xn2, yn2 + 1); printf("     ");
+		borrarn2();
 		yn2++;
 		diren2 = 2;
 		//dibujar
@@ -257,8 +286,7 @@ void movern2() {//Tanque enemigo2
 	}
 	if (xvi > 41 && xvi < 51 && yn2 > 4 && velo == 5) {
 		//borrar
-		gotoxy(xn2, yn2); printf("    ");
-		gotoxy(xn2, yn2 + 1); printf("     ");
+		borrarn2();
 		yn2--;
 		diren2 = 3;
 		//dibujar
@@ -378,8 +406,7 @@ void movern() {//Tanque enemigo 1
 	velo++;
 	if (xvi > 30 && xvi < 40 && xn > 4 && velo == 5) {
 		//borrar
-		gotoxy(xn, yn); printf("    ");
-		gotoxy(xn, yn+1); printf("    ");
+		borrarn();
 		xn--;
 		diren = 0;
 		//dibujar
@@ -388,8 +415,7 @@ void movern() {//Tanque enemigo 1
 	}
 	if (xvi > 20 && xvi < 30 && xn < 90 && velo == 5) {
 		//borrar
-		gotoxy(xn, yn); printf("    ");
-		gotoxy(xn, yn+1); printf("    ");
+		borrarn();
 		xn++;
 		diren = 1;
 		//dibujar
@@ -397,8 +423,7 @@ void movern() {//Tanque enemigo 1
 	}
 	if (xvi > 10 && xvi < 19 && yn > 4 && velo == 5) {
 		//borrar
-		gotoxy(xn, yn); printf("    ");
-		gotoxy(xn, yn + 1); printf("    ");
+		borrarn();
 		yn--;
 		diren = 2;
 		//dibujar
@@ -408,8 +433,7 @@ void movern() {//Tanque enemigo 1
 	}
 	if (xvi > 41 && xvi < 51 && yn < 40 && velo == 5) {
 		//borrar
-		gotoxy(xn, yn); printf("    ");
-		gotoxy(xn, yn + 1); printf("    ");
+		borrarn();
 		yn++;
 		diren = 3;
 		//dibujar
@@ -472,12 +496,7 @@ void bala() {
 		falb = 0;
 	}
 }
- //Borrar
-void Borrar() {
-	gotoxy(xt, yt); printf("     ");
-	gotoxy(xt, yt + 1); printf("     ");
 
-}
 
 
 void mover() {
@@ -567,11 +586,25 @@ void pintar() {
 	gotoxy(94, 3); printf("%c", 187);
 	gotoxy(94, 45); printf("%c", 188);
 }
+void OcultarCursor() {
+	HANDLE hCon;
+	hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cci;
+	cci.dwSize = 2;
+	cci.bVisible = FALSE;
+
+	SetConsoleCursorInfo(hCon, &cci);
+	system("cls");
+}
 
 int main() {
+	OcultarCursor();
+	system("color 0a");
 	while (sal != 5) {
 		system("cls");
+		
 		inicio();
+		Logo();
 		while (sal == 2) {
 			divut();
 			pintar();
@@ -587,12 +620,14 @@ int main() {
 				balan2();
 				bala();
 				Sleep(40);
-				if (vidas == 0) {
+				if (vidas == 0 || level ==6) {
 					sal = 1;
 					score = 0;
 					tanques = 0;
 					enemigos = 0;
+					vidas = 0;
 				}
+
 			}
 		}
 	}
