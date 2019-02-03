@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void Mapa::gotoxy(int x, int y) {
+void gotoxy(int x, int y) {
 	HANDLE hCon;
 	COORD dwPos;
 
@@ -20,6 +20,12 @@ void Mapa::gotoxy(int x, int y) {
 	dwPos.Y = y;
 	hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hCon, dwPos);
+}
+int Mapa:: X(){
+	return this->y;
+}
+int Mapa::Y() {
+	return this->y;
 }
 
 void Mapa::MarcarMapa() {
@@ -64,9 +70,9 @@ void Mapa::Pintar(char tecla) {
 }
 
 void Mapa::borrar() {
-	gotoxy(x-1, y + 1); printf("      ");
-	gotoxy(x-1, y);     printf("      ");
-	gotoxy(x-1, y - 1); printf("      ");
+	gotoxy(x - 1, y + 1); printf("      ");
+	gotoxy(x - 1, y);     printf("      ");
+	gotoxy(x - 1, y - 1); printf("      ");
 }
 
 void Mapa::OcultarCursor() {
@@ -76,33 +82,33 @@ void Mapa::OcultarCursor() {
 	cci.dwSize = 2;
 	cci.bVisible = FALSE;
 
-	 SetConsoleCursorInfo(hCon,&cci);
+	SetConsoleCursorInfo(hCon, &cci);
 }
-void Mapa::Mover() {	
-	
+void Mapa::Mover() {
+
 	if (_kbhit()) {
 		unsigned char tecla = _getch();
 		borrar();
 		if (tecla == 'a') {
 			Pintar(tecla);
-			if(x > 4)
-			x--;
+			if (x > 4)
+				x--;
 		}
 		else if (tecla == 'd') {
 			Pintar(tecla);
-			if ((x + 4) < 109) 
+			if ((x + 4) < 109)
 				x++;
 		}
 		else if (tecla == 's') {
 			Pintar(tecla);
-			if((y + 1) < 43)
-			y++;
-			
+			if ((y + 1) < 43)
+				y++;
+
 		}
 		else if (tecla == 'w') {
 			Pintar(tecla);
-			if((y - 1) > 4)
-			y--;		
+			if ((y - 1) > 4)
+				y--;
 		}
 		else if (tecla == 'e') {
 			vidas--;
@@ -116,36 +122,36 @@ void Mapa::Mover() {
 }
 void Mapa::Mover2Player() {
 
-		if (_kbhit()) {
-			unsigned char tecla2 = _getch();
-			borrar();
-			if (tecla2 == IZQUIERDA) {
-				x--;
-				gotoxy(x, y); printf("<%c%c%c", 177, 219, 177);
-			}
-			if (tecla2 == DERECHA) {
-				x++;
-				gotoxy(x, y); printf("%c%c%c>", 177, 219, 177);
-			}
-			if (tecla2 == ABAJO) {
-				y++;
-				gotoxy(x + 1, y + 1); printf("v");
-				gotoxy(x, y); printf("%c%c%c", 177, 219, 177);
-			}
-			if (tecla2 == ARRIBA) {
-				y--;
-				gotoxy(x, y); printf("%c%c%c", 177, 219, 177);
-				gotoxy(x + 1, y - 1); printf("^");
-			}
-
+	if (_kbhit()) {
+		unsigned char tecla2 = _getch();
+		borrar();
+		if (tecla2 == IZQUIERDA) {
+			x--;
+			gotoxy(x, y); printf("<%c%c%c", 177, 219, 177);
 		}
-		Sleep(40);
+		if (tecla2 == DERECHA) {
+			x++;
+			gotoxy(x, y); printf("%c%c%c>", 177, 219, 177);
+		}
+		if (tecla2 == ABAJO) {
+			y++;
+			gotoxy(x + 1, y + 1); printf("v");
+			gotoxy(x, y); printf("%c%c%c", 177, 219, 177);
+		}
+		if (tecla2 == ARRIBA) {
+			y--;
+			gotoxy(x, y); printf("%c%c%c", 177, 219, 177);
+			gotoxy(x + 1, y - 1); printf("^");
+		}
+
 	}
+	Sleep(40);
+}
 
 
 void Mapa::Vidas() {
 	gotoxy(112, 8); printf("VIDAS");
-	
+
 	for (int i = 0; i < vidas; i++) {
 		gotoxy(112 + i, 9); printf("%c ", 155);
 	}
@@ -158,8 +164,8 @@ void Mapa::morir() {
 		gotoxy(x, y);     printf(" *** ");
 		gotoxy(x, y + 1); printf("  *  ");
 		Sleep(200);
-		
-		
+
+
 		borrar();
 		gotoxy(x, y - 1); printf("  ** ");
 		gotoxy(x, y);     printf(" ****");
@@ -176,7 +182,7 @@ void Mapa::morir() {
 		borrar();
 		Pintar('a');
 		vidas = 3;
-		
+
 	}
 }
 void Mapa::Marcador() {
@@ -187,51 +193,50 @@ void Mapa::Marcador() {
 	gotoxy(112, 12); printf("%02i", 0);
 }
 void Mapa::Inicio() {
-	
+
 	gotoxy(40, 20); printf("INICIAR");
 	gotoxy(36, 22); printf(" ESTADISTICAS");
 	gotoxy(40, 24); printf(" SALIR");
 	gotoxy(38, 20); printf(">");
 	sal = 1;
-	
-		
-		do {
-			tecla = _getch();
-			if (tecla == 'w' && move2 == 0 ) {
-				gotoxy(38, 20); printf(">");
-				gotoxy(35, 22); printf(" ");
-				gotoxy(39, 24); printf(" ");
-				pos = 1;
-				move = 1;
-			}
-			else if (tecla == 's'&& move == 1 || tecla == 'w'&& move2 == 1) {
-					gotoxy(38, 20); printf(" ");
-					gotoxy(35, 22); printf(">");
-					gotoxy(39, 24); printf(" ");
-					pos = 2;
-					move = 2;
-					move2 = 0;
-				}
-			else if (tecla == 's' && move ==2) {
-				gotoxy(38, 20); printf(" ");
-				gotoxy(35, 22); printf(" ");
-				gotoxy(39, 24); printf(">");
-				pos = 2;
-				move2 = 1;
-			}
-			if (tecla == ' ') {
-				if (pos == 1) {
-					sal = 2;
-					vidas = 5;
-				}
-				else {
-					if (pos = 2) {
-						sal = 5;
-					}
-				}
-			}
-		} while (sal == 1);
-		system("cls");
-	
-}
 
+
+	do {
+		tecla = _getch();
+		if (tecla == 'w' && move2 == 0) {
+			gotoxy(38, 20); printf(">");
+			gotoxy(35, 22); printf(" ");
+			gotoxy(39, 24); printf(" ");
+			pos = 1;
+			move = 1;
+		}
+		else if (tecla == 's'&& move == 1 || tecla == 'w'&& move2 == 1) {
+			gotoxy(38, 20); printf(" ");
+			gotoxy(35, 22); printf(">");
+			gotoxy(39, 24); printf(" ");
+			pos = 2;
+			move = 2;
+			move2 = 0;
+		}
+		else if (tecla == 's' && move == 2) {
+			gotoxy(38, 20); printf(" ");
+			gotoxy(35, 22); printf(" ");
+			gotoxy(39, 24); printf(">");
+			pos = 2;
+			move2 = 1;
+		}
+		if (tecla == ' ') {
+			if (pos == 1) {
+				sal = 2;
+				vidas = 5;
+			}
+			else {
+				if (pos = 2) {
+					sal = 5;
+				}
+			}
+		}
+	} while (sal == 1);
+	system("cls");
+
+}
