@@ -185,6 +185,8 @@ void Mapa::morir() {
 
 	}
 }
+
+
 void Mapa::Marcador() {
 	gotoxy(112, 5); printf("TANQUES DESTRUIDOS");
 	gotoxy(112, 6); printf("%02i/%02i", 0, 0);

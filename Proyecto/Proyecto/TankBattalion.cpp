@@ -41,21 +41,21 @@ void gotoxy(int x, int y) {
 	SetConsoleCursorPosition(hcon, dwpos);
 }
 void Logo() {
-	gotoxy(120, 15); printf(" ************       ******       ******      ***  ***   ***  ");
-	gotoxy(120, 16); printf(" ************      ***  ***      *** ***     ***  ***  ***   ");
-	gotoxy(120, 17); printf("     ***          ***    ***     ***  ***    ***  ******     ");
-	gotoxy(120, 18); printf("     ***         ************    ***   ***   ***  ******     ");
-	gotoxy(120, 19); printf("     ***        **************   ***    ***  ***  ***  ***   ");
-	gotoxy(120, 20); printf("     ***       ***          ***  ***     *** ***  ***   ***  ");
-	gotoxy(120, 21); printf("     ***      ***            *** ***      ******  ***    *** ");
+	gotoxy(120, 15); printf(" ************       ******       ******      ***  ***    ***   ");
+	gotoxy(120, 16); printf(" ************      ***  ***      *** ***     ***  ***   ***    ");
+	gotoxy(120, 17); printf("     ***          ***    ***     ***  ***    ***  *******      ");
+	gotoxy(120, 18); printf("     ***         ************    ***   ***   ***  *******      ");
+	gotoxy(120, 19); printf("     ***        **************   ***    ***  ***  ***   ***    ");
+	gotoxy(120, 20); printf("     ***       ***          ***  ***     *** ***  ***    ***   ");
+	gotoxy(120, 21); printf("     ***      ***            *** ***      ******  ***     ***  ");
 
-	gotoxy(115, 23); printf(" ********         ******       ************ ************ ***          ************ ");
-	gotoxy(115, 24); printf(" ***   ***       ***  ***      ************ ************ ***          ************ ");
-	gotoxy(115, 25); printf(" ***  ***       ***    ***         ***          ***      ***          ***           ");
-	gotoxy(115, 26); printf(" *******       ************        ***          ***      ***          ********* ");
-	gotoxy(115, 27); printf(" ***  ***     **************       ***          ***      ***          ***          ");
-	gotoxy(115, 28); printf(" ***   ***   ***          ***      ***          ***      ************ ************ ");
-	gotoxy(115, 29); printf(" ********   ***            ***     ***          ***      ************ ************ ");
+	gotoxy(115, 23); printf(" *********         ******       ************ ************ ***          ************ ");
+	gotoxy(115, 24); printf(" ***    ***       ***  ***      ************ ************ ***          ************ ");
+	gotoxy(115, 25); printf(" ***   ***       ***    ***         ***          ***      ***          ***          ");
+	gotoxy(115, 26); printf(" ********       ************        ***          ***      ***          *********    ");
+	gotoxy(115, 27); printf(" ***   ***     **************       ***          ***      ***          ***          ");
+	gotoxy(115, 28); printf(" ***    ***   ***          ***      ***          ***      ************ ************ ");
+	gotoxy(115, 29); printf(" *********   ***            ***     ***          ***      ************ ************ ");
 }
 
 void inicio() {
@@ -166,19 +166,19 @@ void Puntuacion() {
 
 //Borrar
 void Borrar() {
-	gotoxy(xt, yt); printf("     ");
-	gotoxy(xt, yt + 1); printf("     ");
+	gotoxy(xt, yt); printf("    ");
+	gotoxy(xt, yt + 1); printf("    ");
 
 }
 
 void borrarn() {
-	gotoxy(xn, yn); printf("     ");
-	gotoxy(xn, yn + 1); printf("     ");
+	gotoxy(xn, yn); printf("    ");
+	gotoxy(xn, yn + 1); printf("    ");
 }
 
 void borrarn2() {
-	gotoxy(xn2, yn2); printf("     ");
-	gotoxy(xn2, yn2 + 1); printf("     ");
+	gotoxy(xn2, yn2); printf("    ");
+	gotoxy(xn2, yn2 + 1); printf("    ");
 }
 //Direccion de las balas
 void checabala() {
@@ -404,7 +404,7 @@ void movern() {//Tanque enemigo 1
 		xvi = (rand() % 70) + 6;
 	}
 	velo++;
-	if (xvi > 30 && xvi < 40 && xn > 4 && velo == 5) {
+	if (xvi > 30 && xvi < 40 && xn > 5 && velo == 5) {
 		//borrar
 		borrarn();
 		xn--;
@@ -570,19 +570,19 @@ void mover() {
 void pintar() {
 	int v = 3;
 
-	for (int i = 3; i < 95; i++) {
+	for (int i = 2; i < 95; i++) {
 		v++;
 		//pintar horizontal
 		gotoxy(i, 3); printf("%c", 205);
 		gotoxy(i, 45); printf("%c", 205);
 		//pintar vertical
 		if (v < 45) {
-			gotoxy(3, v); printf("%c", 186);
+			gotoxy(2, v); printf("%c", 186);
 			gotoxy(94, v); printf("%c", 186);
 		}
 	}
-	gotoxy(3, 3); printf("%c", 201);
-	gotoxy(3, 45); printf("%c", 200);
+	gotoxy(2, 3); printf("%c", 201);
+	gotoxy(2, 45); printf("%c", 200);
 	gotoxy(94, 3); printf("%c", 187);
 	gotoxy(94, 45); printf("%c", 188);
 }
