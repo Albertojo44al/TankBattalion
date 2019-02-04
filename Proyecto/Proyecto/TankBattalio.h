@@ -3,7 +3,10 @@
 #include <Windows.h>
 
 
-
+class General {
+public:
+	void inicio();
+};
 
 class Tank {
 public:
@@ -19,13 +22,11 @@ public:
 
 class Mapa {
 public:
+	void nivel();
+	void Puntuacion();
 	void pintar();
 	void marcador();
-	void nivel();
+	
 
 };
 
-class General{
-public:
-	void Inicio();
-};
