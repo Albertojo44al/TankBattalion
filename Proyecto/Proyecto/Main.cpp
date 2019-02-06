@@ -3,15 +3,15 @@
 #include "TankBattalio.h"
 
 //int Main() {
-
-
+//
+//
 //	Tank tanques;
 //	General gen;
 //	Mapa map;
 //
 //	while (sal != 5) {
 //		system("cls");
-//		gen.Inicio();
+//		gen.inicio();
 //		while (sal == 2) {
 //			tanques.dibujar();
 //			map.pintar();

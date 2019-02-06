@@ -1,3 +1,8 @@
+#ifndef TANKBATTALION
+#define TANKBATTALION
+
+
+
 #include <iostream>
 #include <conio.h>
 #include <Windows.h>
@@ -6,10 +11,12 @@
 class General {
 public:
 	void inicio();
+	void logo();
 };
 
 class Tank {
 public:
+
 	void mover();
 	void movern();
 	void movern2();
@@ -22,6 +29,8 @@ public:
 
 class Mapa {
 public:
+
+
 	void nivel();
 	void Puntuacion();
 	void pintar();
@@ -30,3 +39,4 @@ public:
 
 };
 
+#endif // !TANKBATTALION

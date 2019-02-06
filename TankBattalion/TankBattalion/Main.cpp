@@ -26,15 +26,7 @@ int main() {
 
 			while (!gameOver)
 			{
-				if (_kbhit) {
-					unsigned char tecla = _getch();
-					if (tecla == ' ')
-						B.push_back(new Bala(M.X() + 2, M.Y() - 1));
-				}
-
-				for (it = B.begin(); it != B.end; it++) {
-					(*it)->mover;
-				}
+			
 
 				Tanque1.morir();
 				Tanque1.Mover();
