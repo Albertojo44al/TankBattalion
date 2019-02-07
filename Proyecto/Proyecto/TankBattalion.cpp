@@ -57,22 +57,17 @@ void gotoxy(int x, int y) {
 void dibujar() {
 	//Tanque 1
 	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
-		gotoxy(xt, yt);   printf("%c%c%c", 177, 219, 177);
+		gotoxy(xt, yt);   printf("%c%c%c", 177, 223, 177);
 	}
 	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY); {
 		//Tanque 2
-		gotoxy(xn, yn);   printf("%c%c%c", 219, 177, 219);
+		gotoxy(xn, yn);   printf("%c%c%c", 177, 254, 177);
 
 		//Tanque 3
-		gotoxy(xn2, yn2); printf("%c%c%c", 219, 177, 219);
+		gotoxy(xn2, yn2); printf("%c%c%c", 177, 254, 177);
 	}
 }
-void dibujarTankMaster() {
-	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY); {
-		gotoxy(xmt, ymt);     printf("%c%c%c", 219, 219, 219);
-		gotoxy(xmt, ymt + 1); printf("%c %c", 254, 254);
-	}
-}
+
 
 
 
@@ -98,11 +93,13 @@ void Logo() {
 void inicio() {
 	Logo();
 	tankMaster = 0;
+	vmt = 4;
 	level = 1;
 	vidas = 5;
-	gotoxy(40, 20); printf("INICIAR");
-	gotoxy(36, 22); printf(" ESTADISTICAS");
-	gotoxy(40, 24); printf(" SALIR");
+	gotoxy(40, 20); printf("ARCADE");
+	gotoxy(39, 22); printf("1P VS 2P");
+	gotoxy(36, 24); printf(" ESTADISTICAS");
+	gotoxy(40, 26); printf(" SALIR");
 	gotoxy(38, 20); printf(">");
 	sal = 1;
 
@@ -111,35 +108,51 @@ void inicio() {
 		tecla = _getch();
 		if (tecla == 'w' && move2 == 0) {
 			gotoxy(38, 20); printf(">");
-			gotoxy(35, 22); printf(" ");
-			gotoxy(39, 24); printf(" ");
+			gotoxy(37, 22); printf(" ");
+			gotoxy(35, 24); printf(" ");
+			gotoxy(39, 26); printf(" ");
 			pos = 1;
 			move = 1;
 		}
 		else if (tecla == 's'&& move == 1 || tecla == 'w'&& move2 == 1) {
 			gotoxy(38, 20); printf(" ");
-			gotoxy(35, 22); printf(">");
-			gotoxy(39, 24); printf(" ");
+			gotoxy(37, 22); printf(">");
+			gotoxy(35, 24); printf(" ");
+			gotoxy(39, 26); printf(" ");
 			pos = 2;
 			move = 2;
 			move2 = 0;
 		}
-		else if (tecla == 's' && move == 2) {
+		else if (tecla == 's' && move == 2 || tecla == 'w' && move2 == 2) {
 			gotoxy(38, 20); printf(" ");
-			gotoxy(35, 22); printf(" ");
-			gotoxy(39, 24); printf(">");
+			gotoxy(37, 22); printf(" ");
+			gotoxy(35, 24); printf(">");
+			gotoxy(39, 26); printf(" ");
 			pos = 3;
 			move2 = 1;
+			move = 3;
+		}
+		else if (tecla == 's' && move == 3) {
+			gotoxy(38, 20); printf(" ");
+			gotoxy(37, 22); printf(" ");
+			gotoxy(35, 24); printf(" ");
+			gotoxy(39, 26); printf(">");
+			pos = 4;
+			move2 = 2;
 		}
 		if (tecla == ' ') {
-			if (pos == 1) {
+			switch (pos) {
+			case 1:
 				sal = 2;
-				vidas = 5;
-			}
-			else {
-				if (pos = 3) {
-					sal = 5;
-				}
+				vidas = 3;
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				sal = 5;
+				break;
 			}
 		}
 	} while (sal == 1);
@@ -147,10 +160,34 @@ void inicio() {
 
 }
 
+void pintar() {
+	level = 1;
+	vidas = 3;
+	int v = 3;
+	system("color 3"); {
+		for (int i = 2; i < 95; i++) {
+			v++;
+			//pintar horizontal
+			gotoxy(i, 3); printf("%c", 205);
+			gotoxy(i, 45); printf("%c", 205);
+			//pintar vertical
+			if (v < 45) {
+				gotoxy(2, v); printf("%c", 186);
+				gotoxy(94, v); printf("%c", 186);
+			}
+		}
+		gotoxy(2, 3); printf("%c", 201);
+		gotoxy(2, 45); printf("%c", 200);
+		gotoxy(94, 3); printf("%c", 187);
+		gotoxy(94, 45); printf("%c", 188);
+	}
 
+}
 void nivel() {
 	while (tankMaster == level)
 	{
+		
+		vmt = 4;
 		tanques = 0;
 		level++;
 		gotoxy(40, 20); printf("NIVEL  %d",level);
@@ -244,7 +281,7 @@ void checabala() {
 			yn = 18;
 			xb = 0;
 			yb = 0;
-			gotoxy(xn, yn); printf("%c%c%c", 219,177,219);
+			gotoxy(xn, yn); printf("%c%c%c", 177,254,177);
 
 		
 	}
@@ -258,12 +295,11 @@ void checabala() {
 			yn2 = 18;
 			xb = 0;
 			yb = 0;
-			gotoxy(xn2, yn2); printf("%c%c%c",219,177,219);
+			gotoxy(xn2, yn2); printf("%c%c%c", 177, 254, 177);
 		
 	}
 	//Validar contacto a master Tank
-	if (xb == xmt && yb == ymt + 1 || xb == xmt && yb == ymt || xb == xmt + 3 && yb == ymt + 1 || xb == xmt + 3 && yb == ymt || xb == xmt + 1 && yb == ymt + 1 || xb == xmt + 1 && yb == ymt || xb == xmt + 2 && yb == ymt + 1 || xb == xmt + 2 && yb == ymt) {
-			
+	if (xb == xmt && yb == ymt + 1 || xb == xmt && yb == ymt || xb == xmt + 3 && yb == ymt + 1 || xb == xmt + 3 && yb == ymt || xb == xmt + 1 && yb == ymt + 1 || xb == xmt + 1 && yb == ymt || xb == xmt + 2 && yb == ymt + 1 || xb == xmt + 2 && yb == ymt) {		
 		vmt--;
 		if (vmt < 0) {
 			morir(xmt, ymt);
@@ -305,7 +341,7 @@ void checabala() {
 		morir(xt,yt);
 		xt = 25;
 		yt = 11;
-		gotoxy(xt, yt); printf("%c%c%c",177,219,177);
+		gotoxy(xt, yt); printf("%c%c%c",177,223,177);
 		vidas--;
 		xbn = 0;
 		ybn = 0;
@@ -314,7 +350,7 @@ void checabala() {
 		morir(xt,yt);
 		xt = 25;
 		yt = 11;
-		gotoxy(xt, yt); printf("%c%c%c", 177, 219, 177);
+		gotoxy(xt, yt); printf("%c%c%c", 177, 223, 177);
 
 		vidas--;
 		xbn2 = 0;
@@ -324,7 +360,7 @@ void checabala() {
 		morir(xt,yt);
 		xt = 25;
 		yt = 11;
-		gotoxy(xt, yt); printf("%c%c%c", 177, 219, 177);
+		gotoxy(xt, yt); printf("%c%c%c", 177, 223, 177);
 
 		vidas--;
 		xbn2 = 0;
@@ -347,8 +383,8 @@ void movermt() {//Tanque enemigo2
 			xmt++;
 			diremt = 0;
 			//dibujar
-			gotoxy(xmt, ymt);     printf("%c%c%c>", 219, 219, 219);
-			gotoxy(xmt, ymt + 1); printf("%c %c", 254, 254);
+			gotoxy(xmt, ymt);     printf("%c%c%c>", 177,219, 177);
+			
 		}
 		if (xvi > 20 && xvi < 30 && xmt > 4 && velomt == 5) {
 			//borrar
@@ -356,8 +392,8 @@ void movermt() {//Tanque enemigo2
 			xmt--;
 			diremt = 1;
 			//dibujar
-			gotoxy(xmt, ymt); printf("<%c%c%c", 219, 219, 219);
-			gotoxy(xmt, ymt+1); printf("%c %c", 254, 254);
+			gotoxy(xmt, ymt); printf("<%c%c%c", 177, 219, 177);
+			
 		}
 		if (xvi > 10 && xvi < 19 && ymt < 40 && velomt == 5) {
 			//borrar
@@ -365,7 +401,7 @@ void movermt() {//Tanque enemigo2
 			ymt++;
 			diremt = 2;
 			//dibujar
-			gotoxy(xmt, ymt); printf("%c%c%c", 254, 219, 254);
+			gotoxy(xmt, ymt); printf("%c%c%c", 177, 219, 177);
 			gotoxy(xmt, ymt + 1); printf(" v ");
 		}
 		if (xvi > 41 && xvi < 51 && ymt > 4 && velomt == 5) {
@@ -375,7 +411,7 @@ void movermt() {//Tanque enemigo2
 			diremt = 3;
 			//dibujar
 			gotoxy(xmt, ymt); printf(" ^ ");
-			gotoxy(xmt, ymt + 1); printf("%c%c%c", 254, 219, 254);
+			gotoxy(xmt, ymt + 1); printf("%c%c%c", 177, 219, 177);
 		}
 		if (falbmt == 0) {
 			if (diremt == 0) {
@@ -418,7 +454,7 @@ void movern2() {//Tanque enemigo2
 			xn2++;
 			diren2 = 0;
 			//dibujarw
-			gotoxy(xn2, yn2); printf("%c%c%c>", 219, 177, 219);
+			gotoxy(xn2, yn2); printf("%c%c%c>", 177, 254, 177);
 		}
 		if (xvi > 20 && xvi < 30 && xn2 > 4 && velo == 5) {
 			//borrar
@@ -426,7 +462,7 @@ void movern2() {//Tanque enemigo2
 			xn2--;
 			diren2 = 1;
 			//dibujar
-			gotoxy(xn2, yn2); printf("<%c%c%c", 219, 177, 219);
+			gotoxy(xn2, yn2); printf("<%c%c%c", 177, 254, 177);
 		}
 		if (xvi > 10 && xvi < 19 && yn2 < 40 && velo == 5) {
 			//borrar
@@ -434,7 +470,7 @@ void movern2() {//Tanque enemigo2
 			yn2++;
 			diren2 = 2;
 			//dibujar
-			gotoxy(xn2, yn2); printf("%c%c%c", 219, 177, 219);
+			gotoxy(xn2, yn2); printf("%c%c%c", 177, 254, 177);
 			gotoxy(xn2, yn2 + 1); printf(" v ");
 		}
 		if (xvi > 41 && xvi < 51 && yn2 > 4 && velo == 5) {
@@ -444,7 +480,7 @@ void movern2() {//Tanque enemigo2
 			diren2 = 3;
 			//dibujar
 			gotoxy(xn2, yn2); printf(" ^ ");
-			gotoxy(xn2, yn2 + 1); printf("%c%c%c", 219, 177, 219);
+			gotoxy(xn2, yn2 + 1); printf("%c%c%c", 177, 254, 177);
 		}
 		if (falbn2 == 0) {
 			if (diren2 == 0) {
@@ -602,7 +638,7 @@ void movern() {//Tanque enemigo 1
 			xn--;
 			diren = 0;
 			//dibujar
-			gotoxy(xn, yn); printf("<%c%c%c", 219, 177, 219);
+			gotoxy(xn, yn); printf("<%c%c%c", 177, 254, 177);
 
 		}
 		if (xvi > 20 && xvi < 30 && xn < 90 && velo == 5) {
@@ -611,7 +647,7 @@ void movern() {//Tanque enemigo 1
 			xn++;
 			diren = 1;
 			//dibujar
-			gotoxy(xn, yn); printf("%c%c%c>", 219, 177, 219);
+			gotoxy(xn, yn); printf("%c%c%c>", 177, 254, 177);
 		}
 		if (xvi > 10 && xvi < 19 && yn > 4 && velo == 5) {
 			//borrar
@@ -620,7 +656,7 @@ void movern() {//Tanque enemigo 1
 			diren = 2;
 			//dibujar
 			gotoxy(xn, yn); printf(" ^ ");
-			gotoxy(xn, yn + 1); printf("%c%c%c", 219, 177, 219);
+			gotoxy(xn, yn + 1); printf("%c%c%c", 177, 254, 177);
 
 		}
 		if (xvi > 41 && xvi < 51 && yn < 40 && velo == 5) {
@@ -629,7 +665,7 @@ void movern() {//Tanque enemigo 1
 			yn++;
 			diren = 3;
 			//dibujar
-			gotoxy(xn, yn); printf("%c%c%c", 219, 177, 219);
+			gotoxy(xn, yn); printf("%c%c%c", 177, 254, 177);
 			gotoxy(xn, yn + 1); printf(" v ");
 		}
 		if (falbn == 0) {
@@ -703,7 +739,7 @@ void mover() {
 				xt--;
 				dire = 1;
 				//dibujar
-				gotoxy(xt, yt); printf("<%c%c%c", 177, 219, 177);
+				gotoxy(xt, yt); printf("<%c%c%c", 177, 223, 177);
 
 			}
 			else {
@@ -712,7 +748,7 @@ void mover() {
 					xt++;
 					dire = 0;
 					//dibujar
-					gotoxy(xt, yt); printf("%c%c%c>", 177, 219, 177);
+					gotoxy(xt, yt); printf("%c%c%c>", 177, 223, 177);
 
 				}
 			}
@@ -723,7 +759,7 @@ void mover() {
 				dire = 2;
 				//dibujar
 				gotoxy(xt, yt); printf(" ^ ");
-				gotoxy(xt, yt + 1); printf("%c%c%c", 177, 219, 177);
+				gotoxy(xt, yt + 1); printf("%c%c%c", 177, 223, 177);
 			}
 			else {
 				if (tecla == 's' && yt < 43 ) {
@@ -731,7 +767,7 @@ void mover() {
 					yt++;
 					dire = 3;
 					//dibujar
-					gotoxy(xt, yt); printf("%c%c%c", 177, 219, 177);
+					gotoxy(xt, yt); printf("%c%c%c", 177, 223, 177);
 					gotoxy(xt, yt + 1); printf(" v ");
 				}
 			}
@@ -783,29 +819,7 @@ void marcador() {
 	gotoxy(96, 14); printf("%02i", score);
 
 }
-void pintar() {
-	level = 1;
-	vidas = 3;
-	int v = 3;
-	system("color 3");{
-	for (int i = 2; i < 95; i++) {
-		v++;
-		//pintar horizontal
-		gotoxy(i, 3); printf("%c", 205);
-		gotoxy(i, 45); printf("%c", 205);
-		//pintar vertical
-		if (v < 45) {
-			gotoxy(2, v); printf("%c", 186);
-			gotoxy(94, v); printf("%c", 186);
-		}
-	}
-	gotoxy(2, 3); printf("%c", 201);
-	gotoxy(2, 45); printf("%c", 200);
-	gotoxy(94, 3); printf("%c", 187);
-	gotoxy(94, 45); printf("%c", 188);
-	}
-	
-}
+
 
 void OcultarCursor() {
 	HANDLE hCon;
@@ -849,7 +863,7 @@ int main() {
 				}
 				if(ExisteTankMaster)
 				{
-					dibujarTankMaster();
+					
 					movermt();
 					balamt();
 				}
