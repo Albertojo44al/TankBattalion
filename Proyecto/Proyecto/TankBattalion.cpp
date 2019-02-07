@@ -90,6 +90,16 @@ void Logo() {
 	gotoxy(115, 29); printf(" *********   ***            ***     ***          ***      ************ ************ ");
 }
 
+void Logo2() {
+	gotoxy(20, 5); printf("************ ************      ******       ************ ************ ");
+	gotoxy(20, 6); printf("************ ************     ***  ***      ************ ************ ");
+	gotoxy(20, 7); printf("***              ***         ***    ***         ***      ***          ");
+	gotoxy(20, 8); printf("************     ***        ************        ***      ************ ");
+	gotoxy(20, 9); printf("         ***     ***       **************       ***               *** ");
+	gotoxy(20, 10);printf("************     ***      ***          ***      ***      ************ ");
+	gotoxy(20, 11);printf("************     ***     ***            ***     ***      ************ ");
+
+}
 void inicio() {
 	Logo();
 	tankMaster = 0;
@@ -140,14 +150,17 @@ void inicio() {
 			move2 = 2;
 		}
 		if (tecla == ' ') {
+
 			switch (pos) {
 			case 1:
 				sal = 2;
 				vidas = 3;
 				break;
 			case 2:
+				sal = 3;
 				break;
 			case 3:
+				sal = 4;
 				break;
 			case 4:
 				sal = 5;
@@ -846,6 +859,10 @@ int main() {
 		
 		inicio();
 		Logo();
+		while (sal == 4) {
+			system("cls");
+			Logo2();
+		}
 		while (sal == 2) {
 			dibujar(); //dibuja el mapa
 			pintar(); //pinta los tanques
@@ -859,9 +876,10 @@ int main() {
 					movern2();
 					balan();
 					balan2();
+					vmt = 3;
 				}
 				if (tanques == enemigos) { // aparicion de master tank
-					vmt = 3;
+					
 					FinTanques(); // borrar los tanques enemigos excepto el  master
 					ExisteTankMaster = true;
 						
