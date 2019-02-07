@@ -8,35 +8,11 @@
 #include <Windows.h>
 
 
-class General {
-public:
-	void inicio();
-	void logo();
-};
-
-class Tank {
-public:
-
-	void mover();
-	void movern();
-	void movern2();
-	void bala();
-	void balan();
-	void balan2();
-	void checabala();
-	void dibujar();
-};
-
 class Mapa {
 public:
+	void minas(int,int,int,int);
+	void gotoxy(int, int );
 
-
-	void nivel();
-	void Puntuacion();
-	void pintar();
-	void marcador();
-	
-
-};
+}
 
 #endif // !TANKBATTALION

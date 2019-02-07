@@ -18,7 +18,7 @@
     <ClCompile Include="TankBattalion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Mapa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

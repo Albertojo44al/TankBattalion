@@ -5,19 +5,26 @@
 
 
 
-int a, d, w, s, l;//teclas
-int xt = 25, yt = 11;//cordenadas de tanque
+//Primer player
+int xt = 50, yt = 40;//cordenadas de tanque
 int dire = 0, diref = 0;//dereccion de tanque
 int xb = 0, yb = 0;//cordenadas de bala de tanque
 int xbn = 0, ybn = 0;//cordenadas de bala de enemigo1
 int falb = 0;//actibador de bala
+ //Segundo Player
+int xp2 = 50, yp2= 40;//cordenadas de tanque
+int direp2 = 0, direfp2 = 0;//dereccion de tanque
+int xbp2 = 0, ybp2 = 0;//cordenadas de bala de tanque
+int falbp2 = 0;//actibador de bala
+
+
 int falbn = 0;//actibador de bala enemiga1
-int xn = 30, yn = 25;//cordenadas de enemigo1
+int xn = 6, yn = 10;//cordenadas de enemigo1
 int diren = 0, direfn = 0;//direccion de enemigo1
 int time = 0;//tienpo en mover enemigo
 int xvi = 0;//mover aleatorio
 int falbn2 = 0;//actibador de bala enemigo2
-int xn2 = 45, yn2 = 4;//cordenadas de enemigo2
+int xn2 = 80, yn2 = 10;//cordenadas de enemigo2
 int xbn2 = 0, ybn2 = 0;//cordenadas de balas de enemigo2
 int diren2 = 0, direfn2 = 0;//direccion de enemigo2
 int tanques = 0;//tanques destruidos
@@ -26,7 +33,7 @@ int vidas = 3;
 int velo = 0;//velocidad de enemigos
 int level = 1;
 int score = 0; // Puntuacion;
-int xmt=80, ymt=40; //cordenadas Master tank
+int xmt=50, ymt=20; //cordenadas Master tank
 int diremt=0, direfmt=0; // direccion master tank
 int falbmt=0; // activador bala master tank;
 int xbmt, ybmt; // cordenadas de bala master tank;
@@ -34,9 +41,9 @@ int vmt; // vida master Tank
 int velomt = 0;
 int tankMaster = 0; //cantidad vencidos
 bool ExisteTankMaster = false;
-
 boolean pause=true;
 
+boolean mina=true;
 // Cambiar Color 
 HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -54,6 +61,8 @@ void gotoxy(int x, int y) {
 	dwpos.Y = y;
 	SetConsoleCursorPosition(hcon, dwpos);
 }
+
+
 void dibujar() {
 	//Tanque 1
 	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
@@ -91,20 +100,23 @@ void Logo() {
 }
 
 void Logo2() {
-	gotoxy(20, 5); printf("************ ************      ******       ************ ************ ");
-	gotoxy(20, 6); printf("************ ************     ***  ***      ************ ************ ");
-	gotoxy(20, 7); printf("***              ***         ***    ***         ***      ***          ");
-	gotoxy(20, 8); printf("************     ***        ************        ***      ************ ");
-	gotoxy(20, 9); printf("         ***     ***       **************       ***               *** ");
-	gotoxy(20, 10);printf("************     ***      ***          ***      ***      ************ ");
-	gotoxy(20, 11);printf("************     ***     ***            ***     ***      ************ ");
-
+	gotoxy(70, 5); printf("************ ************      ******       ************ ************ ");
+	gotoxy(70, 6); printf("************ ************     ***  ***      ************ ************ ");
+	gotoxy(70, 7); printf("***              ***         ***    ***         ***      ***          ");
+	gotoxy(70, 8); printf("************     ***        ************        ***      ************ ");
+	gotoxy(70, 9); printf("         ***     ***       **************       ***               *** ");
+	gotoxy(70, 10);printf("************     ***      ***          ***      ***      ************ ");
+	gotoxy(70, 11);printf("************     ***     ***            ***     ***      ************ ");
 }
+
 void inicio() {
 	Logo();
 	tankMaster = 0;
 	level = 1;
-	vidas = 5;
+	vidas = 3;
+	tanques = 0;
+	enemigos = 3;
+	ExisteTankMaster = false;
 	gotoxy(40, 20); printf("ARCADE");
 	gotoxy(39, 22); printf("1P VS 2P");
 	gotoxy(36, 24); printf(" ESTADISTICAS");
@@ -200,9 +212,12 @@ void nivel() {
 	{
 		tanques = 0;
 		level++;
-		gotoxy(40, 20); printf("NIVEL  %d",level);
-		Sleep(1000);
-		gotoxy(40, 20); printf("         ");
+		if (level < 6)
+		{
+			gotoxy(40, 20); printf("NIVEL  %d", level);
+			Sleep(1000);
+			gotoxy(40, 20); printf("         ");
+		}
 		vidas++;
 		if (level == 3 || level == 4) {
 			enemigos += 1;
@@ -239,6 +254,7 @@ void morir(int x, int y) {
 
 		borrar(x,y);
 }
+ 
 
 void Puntuacion() {
 	if (level == 1)
@@ -266,6 +282,10 @@ void Borrar() {
 	gotoxy(xt, yt); printf("    ");
 	gotoxy(xt, yt + 1); printf("    ");
 }
+void BorrarP2() {
+	gotoxy(xp2, yp2); printf("    ");
+	gotoxy(xp2, yp2 + 1); printf("    ");
+}
 
 void borrarn() {
 	gotoxy(xn, yn); printf("    ");
@@ -280,16 +300,45 @@ void borrarmt() {
 	gotoxy(xmt, ymt); printf("     ");
 	gotoxy(xmt, ymt + 1); printf("     ");
 }
+
+//Minas
+void minas(int x, int y) {
+	gotoxy(x, y); printf("%c", 206);
+
+	if (xt == x && yt == y || xt == x && yt + 1 == y || xt + 1 == x && yt == y || xt + 1 == x && yt + 1 == y || xt + 2 == x && yt == y || xt + 2 == x && yt + 1 == y || xt + 3 == x && yt == y || xt + 3 == x && yt + 1 == y) {
+		morir(xt, yt);
+		xt = 50;
+		yt = 30;
+		vidas--;
+		gotoxy(xt, yt); printf("%c%c%c", 177, 223, 177);
+	}
+	if (xn == x && yn == y || xn == x && yn + 1 == y || xn + 1 == x && yn == y || xn + 1 == x && yn + 1 == y || xn + 2 == x && yn == y || xn + 2 == x && yn + 1 == y || xn + 3 == x && yn == y || xn + 3 == x && yn + 1 == y) {
+		borrarn();
+		tanques++;
+		xn = 6;
+		yn = 10;
+		gotoxy(xn, yn); printf("%c%c%c", 177, 254, 177);
+
+	}
+	if (xn2 == x && yn2 == y || xn2 == x && yn2 + 1 == y || xn2 + 1 == x && yn2 == y || xn2 + 1 == x && yn2 + 1 == y || xn2 + 2 == x && yn2 == y || xn2 + 2 == x && yn2 + 1 == y || xn2 + 3 == x && yn2 == y || xn2 + 3 == x && yn2 + 1 == y) {
+		borrarn2();
+		tanques++;
+		xn2 = 80;
+		yn2 = 10;
+		gotoxy(xn2, yn2); printf("%c%c%c", 177, 254, 177);
+	}
+}
+
 //Direccion de las balas
 void checabala() {
 	//Validar contacto da enmigo 1
 	if (xb == xn && yb == yn +1|| xb == xn  && yb == yn  ||xb == xn +3 && yb == yn + 1 || xb == xn + 3 && yb == yn || xb == xn + 1 && yb == yn + 1 || xb == xn + 1 && yb == yn || xb == xn + 2 && yb == yn + 1 || xb == xn + 2 && yb == yn) {
 		tanques++;
 		Puntuacion();
-
+		
 		borrarn();
-			xn = 10;
-			yn = 18;
+			xn = 6;
+			yn = 10;
 			xb = 0;
 			yb = 0;
 			gotoxy(xn, yn); printf("%c%c%c", 177,254,177);
@@ -302,8 +351,8 @@ void checabala() {
 		Puntuacion();
 		
 		borrarn2();
-			xn2 = 45;
-			yn2 = 18;
+			xn2 = 80;
+			yn2 = 10;
 			xb = 0;
 			yb = 0;
 			gotoxy(xn2, yn2); printf("%c%c%c", 177, 254, 177);
@@ -318,8 +367,8 @@ void checabala() {
 		yb = 0;
 		if (vmt == 0) {
 			morir(xmt, ymt);
-			xmt = 80;
-			ymt = 30;
+			xmt = 50;
+			ymt = 20;
 			xbmt = 0;
 			ybmt = 0;
 			PuntuacionMasterTank();
@@ -356,8 +405,8 @@ void checabala() {
 	//Validar contacto de enemigo
 	if (xbn == xt && ybn == yt+1 || xbn == xt  && ybn == yt  ||xbn == xt+1 && ybn == yt + 1 || xbn == xt+1 && ybn == yt || xbn == xt + 2 && ybn == yt + 1 || xbn == xt + 2 && ybn == yt  || xbn == xt + +3 && ybn == yt + 1|| xbn == xt + 3 && ybn == yt ) {
 		morir(xt,yt);
-		xt = 25;
-		yt = 11;
+		xt = 50;
+		yt = 40;
 		gotoxy(xt, yt); printf("%c%c%c",177,223,177);
 		vidas--;
 		xbn = 0;
@@ -365,8 +414,8 @@ void checabala() {
 	}
 	if (xbn2 == xt && ybn2 == yt +1|| xbn2 == xt && ybn2 == yt ||xbn2 == xt +3 && ybn2 == yt + 1 || xbn2 == xt +3 && ybn2 == yt || xbn2 == xt + 1 && ybn2 == yt + 1 || xbn2 == xt + 1 && ybn2 == yt || xbn2 == xt + 2 && ybn2 == yt + 1 || xbn2 == xt + 2 && ybn2 == yt) {
 		morir(xt,yt);
-		xt = 25;
-		yt = 11;
+		xt = 50;
+		yt = 40;
 		gotoxy(xt, yt); printf("%c%c%c", 177, 223, 177);
 
 		vidas--;
@@ -375,8 +424,8 @@ void checabala() {
 	}
 	if (xbmt == xt && ybmt == yt + 1 || xbmt == xt && ybmt == yt || xbmt == xt + 3 && ybmt == yt + 1 || xbmt == xt + 3 && ybmt == yt || xbmt == xt + 1 && ybmt == yt + 1 || xbmt == xt + 1 && ybmt == yt || xbmt == xt + 2 && ybmt == yt + 1 || xbmt == xt + 2 && ybmt == yt) {
 		morir(xt,yt);
-		xt = 25;
-		yt = 11;
+		xt = 50;
+		yt = 40;
 		gotoxy(xt, yt); printf("%c%c%c", 177, 223, 177);
 
 		vidas--;
@@ -576,6 +625,7 @@ void FinTanques() {
 	gotoxy(xbn, ybn); printf(" ");
 	gotoxy(xbn2, ybn2); printf(" ");
 
+	
 	xbn = 0;
 	ybn = 0;
 	xbn2 = 0;
@@ -795,7 +845,10 @@ void mover() {
 				gotoxy(40, 20); printf("     ");
 				}
 			}
-
+			if (tecla == '1') {
+				sal = 1;
+				vidas = -1;
+			}
 			
 			if (tecla == ' ' && falb == 0) {
 				if (dire == 0) {
@@ -822,6 +875,75 @@ void mover() {
 				diref = dire;
 			}
 		}//fin if
+	}
+}
+void moverP2() {
+	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
+		
+			unsigned char tecla2 = _getch();
+			if (tecla2 == 'j' && xp2 > 4) {
+				//borrar
+				BorrarP2();
+				xp2--;
+				direp2 = 1;
+				//dibujar
+				gotoxy(xp2, yp2); printf("<%c%c%c", 177, 223, 177);
+
+			}
+			else {
+				if (tecla2 == 'l' && xp2 < 88) {
+					BorrarP2();
+					xp2++;
+					direp2 = 0;
+					//dibujar
+					gotoxy(xp2, yp2); printf("%c%c%c>", 177, 223, 177);
+
+				}
+			}
+
+			if (tecla2 == 'i' && yp2 > 5) {
+				BorrarP2();
+				yp2--;
+				direp2 = 2;
+				//dibujar
+				gotoxy(xp2, yp2); printf(" ^ ");
+				gotoxy(xp2, yp2 + 1); printf("%c%c%c", 177, 223, 177);
+			}
+			else {
+				if (tecla2 == 'k' && yp2 < 43) {
+					BorrarP2();
+					yp2++;
+					direp2 = 3;
+					//dibujar
+					gotoxy(xp2, yp2); printf("%c%c%c", 177, 223, 177);
+					gotoxy(xp2, yp2 + 1); printf(" v ");
+				}
+			}
+			if (tecla2 == '0' && falbp2 == 0) {
+				if (direp2 == 0) {
+					xp2 = xp2 + 5;
+					yp2 = yp2 + 1;
+				}
+				else {
+					if (direp2 == 1) {
+						xp2 = xp2 - 1;
+						yp2 = yp2 + 1;
+					}
+				}
+				if (direp2 == 2) {
+					xp2 = xp2 + 2;
+					yp2 = yp2 - 1;
+				}
+				else {
+					if (direp2 == 3) {
+						xp2 = xp2 + 2;
+						yp2 = yp2 + 3;
+					}
+				}
+				falbp2 = 1;
+				direfp2 = direp2;
+			}
+		
 	}
 }
 void marcador() {
@@ -859,14 +981,20 @@ int main() {
 		
 		inicio();
 		Logo();
-		while (sal == 4) {
-			system("cls");
-			Logo2();
-		}
+		
 		while (sal == 2) {
 			dibujar(); //dibuja el mapa
 			pintar(); //pinta los tanques
+			
 			while (vidas > 0) {
+				
+				minas(15, 15);
+				minas(45, 20);
+				minas(27, 6);
+				minas(60, 35);
+				minas(12, 26);
+				minas(80, 7);
+				
 				nivel(); //verifica el nivel
 				checabala();
 				marcador();
@@ -886,7 +1014,6 @@ int main() {
 				}
 				if(ExisteTankMaster)
 				{
-					
 					movermt();
 					balamt();
 				}
@@ -905,6 +1032,30 @@ int main() {
 					gotoxy(40, 20); printf("          ");
 				}
 
+			}
+		}
+		//Dos players
+		while (sal == 3) {
+			pintar();
+			while (sal == 3) {
+				checabala();
+				mover();
+				moverP2();
+				bala();
+			}
+		}
+
+		//Estadistias
+		while (sal == 4) {
+			system("cls");
+			while (sal == 4) {
+				Logo2();
+				if (_kbhit()) {
+					unsigned char tecla = _getch();
+					if (tecla == '1') {
+						sal = 1;
+					}
+				}
 			}
 		}
 	}
