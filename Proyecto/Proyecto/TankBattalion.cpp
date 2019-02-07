@@ -30,7 +30,7 @@ int xmt=80, ymt=40; //cordenadas Master tank
 int diremt=0, direfmt=0; // direccion master tank
 int falbmt=0; // activador bala master tank;
 int xbmt, ybmt; // cordenadas de bala master tank;
-int vmt = 4; // vida master Tank
+int vmt; // vida master Tank
 int velomt = 0;
 int tankMaster = 0; //cantidad vencidos
 bool ExisteTankMaster = false;
@@ -93,7 +93,6 @@ void Logo() {
 void inicio() {
 	Logo();
 	tankMaster = 0;
-	vmt = 4;
 	level = 1;
 	vidas = 5;
 	gotoxy(40, 20); printf("ARCADE");
@@ -186,8 +185,6 @@ void pintar() {
 void nivel() {
 	while (tankMaster == level)
 	{
-		
-		vmt = 4;
 		tanques = 0;
 		level++;
 		gotoxy(40, 20); printf("NIVEL  %d",level);
@@ -206,6 +203,7 @@ void borrar(int x, int y) {
 	gotoxy(x, y + 1); printf("     ");
 
 }
+
 void morir(int x, int y) {
 	
 		borrar(x,y);
@@ -298,21 +296,25 @@ void checabala() {
 			gotoxy(xn2, yn2); printf("%c%c%c", 177, 254, 177);
 		
 	}
+
 	//Validar contacto a master Tank
-	if (xb == xmt && yb == ymt + 1 || xb == xmt && yb == ymt || xb == xmt + 3 && yb == ymt + 1 || xb == xmt + 3 && yb == ymt || xb == xmt + 1 && yb == ymt + 1 || xb == xmt + 1 && yb == ymt || xb == xmt + 2 && yb == ymt + 1 || xb == xmt + 2 && yb == ymt) {		
+	if (xb == xmt && yb == ymt + 1 || xb == xmt && yb == ymt || xb == xmt + 3 && yb == ymt + 1 || xb == xmt + 3 && yb == ymt || xb == xmt + 1 && yb == ymt + 1 || xb == xmt + 1 && yb == ymt || xb == xmt + 2 && yb == ymt + 1 || xb == xmt + 2 && yb == ymt) {			
 		vmt--;
-		if (vmt < 0) {
+		borrarmt();
+		xb = 0;
+		yb = 0;
+		if (vmt == 0) {
 			morir(xmt, ymt);
 			xmt = 80;
 			ymt = 30;
 			xbmt = 0;
 			ybmt = 0;
-			vmt = 4;
 			PuntuacionMasterTank();
 			tankMaster++;
 			ExisteTankMaster = false;
 		}
 	}
+
 	//balas chocando
 	if (xb == xbn && yb == ybn) {
 		gotoxy(xb, yb); printf(" ");
@@ -321,6 +323,7 @@ void checabala() {
 		xbn = 0;
 		ybn = 0;
 	}	
+
 	if (xb == xbn2 && yb == ybn2) {
 		gotoxy(xb, yb); printf(" ");
 		xb = 0;
@@ -328,6 +331,7 @@ void checabala() {
 		xbn2 = 0;
 		ybn2 = 0;
 	}
+
 	if (xb == xbmt && yb == ybmt) {
 		gotoxy(xb, yb); printf(" ");
 		xb = 0;
@@ -857,6 +861,7 @@ int main() {
 					balan2();
 				}
 				if (tanques == enemigos) { // aparicion de master tank
+					vmt = 3;
 					FinTanques(); // borrar los tanques enemigos excepto el  master
 					ExisteTankMaster = true;
 						
