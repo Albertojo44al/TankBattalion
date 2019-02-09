@@ -127,8 +127,8 @@ void inicio() {
 	ExisteTankMaster = false;
 	gotoxy(40, 20); printf("ARCADE");
 	gotoxy(39, 22); printf("1P VS 2P");
-	gotoxy(36, 24); printf(" ESTADISTICAS");
-	gotoxy(40, 26); printf(" SALIR");
+	gotoxy(40, 24); printf(" STATS");
+	gotoxy(40, 26); printf(" QUIT");
 	gotoxy(38, 20); printf(">");
 	sal = 1;
 
@@ -138,7 +138,7 @@ void inicio() {
 		if (tecla == 'w' && move2 == 0) {
 			gotoxy(38, 20); printf(">");
 			gotoxy(37, 22); printf(" ");
-			gotoxy(35, 24); printf(" ");
+			gotoxy(38, 24); printf(" ");
 			gotoxy(39, 26); printf(" ");
 			pos = 1;
 			move = 1;
@@ -146,7 +146,7 @@ void inicio() {
 		else if (tecla == 's'&& move == 1 || tecla == 'w'&& move2 == 1) {
 			gotoxy(38, 20); printf(" ");
 			gotoxy(37, 22); printf(">");
-			gotoxy(35, 24); printf(" ");
+			gotoxy(38, 24); printf(" ");
 			gotoxy(39, 26); printf(" ");
 			pos = 2;
 			move = 2;
@@ -155,7 +155,7 @@ void inicio() {
 		else if (tecla == 's' && move == 2 || tecla == 'w' && move2 == 2) {
 			gotoxy(38, 20); printf(" ");
 			gotoxy(37, 22); printf(" ");
-			gotoxy(35, 24); printf(">");
+			gotoxy(38, 24); printf(">");
 			gotoxy(39, 26); printf(" ");
 			pos = 3;
 			move2 = 1;
@@ -164,7 +164,7 @@ void inicio() {
 		else if (tecla == 's' && move == 3) {
 			gotoxy(38, 20); printf(" ");
 			gotoxy(37, 22); printf(" ");
-			gotoxy(35, 24); printf(" ");
+			gotoxy(38, 24); printf(" ");
 			gotoxy(39, 26); printf(">");
 			pos = 4;
 			move2 = 2;
@@ -222,7 +222,7 @@ void nivel() {
 		level++;
 		if (level < 6)
 		{
-			gotoxy(40, 20); printf("NIVEL  %d", level);
+			gotoxy(40, 20); printf("LEVEL  %d", level);
 			Sleep(1000);
 			gotoxy(40, 20); printf("         ");
 		}
@@ -984,14 +984,18 @@ void balaP2(){
 
 void marcador() {
 
-	gotoxy(96, 4); printf("TANQUES DESTRUIDOS");
+	gotoxy(96, 4); printf("DESTROYED TANKS");
 	gotoxy(96, 5); printf("%02i/%02i", tanques, enemigos);
-	gotoxy(96, 7); printf("VIDAS");
+	gotoxy(96, 7); printf("VLIVES");
 	gotoxy(95, 8); printf(" %02i", vidas);
-	gotoxy(96, 10); printf("NIVEL");
+	gotoxy(96, 10); printf("LEVEL");
 	gotoxy(96, 11); printf("%02i", level);
-	gotoxy(96, 13); printf("PUNTUACION");
+	gotoxy(96, 13); printf("SCORE");
 	gotoxy(96, 14); printf("%02i", score);
+
+	gotoxy(96, 16); printf("HIGH SCORE");
+	gotoxy(96, 17); printf("%02i", Stats[0][1]);
+	
 
 }
 
@@ -1024,7 +1028,17 @@ bool AgregarStats( int puntuacion) {
 	}
 	return false;
 }
+void ordenarStats() {
+	int mayor;
+	for (int i = 0; i < 10; i++) {
+		if (Stats[i][1] < Stats[i + 1][1]) {
+			mayor = Stats[i+1][1];
+			Stats[i+1][1] = Stats[i][1];
+			Stats[i][1] = mayor;
+		}
 
+	}
+}
 void ImprimirStats() {
 	for (int horizotal = 0; horizotal < 30; horizotal++) {
 		gotoxy(90 + horizotal, 15); printf("%c", 205);
@@ -1120,6 +1134,7 @@ int main() {
 			system("cls");
 			while (sal == 4) {
 				Logo2();
+				ordenarStats();
 				 ImprimirStats();
 				if (_kbhit()) {
 					unsigned char tecla = _getch();
