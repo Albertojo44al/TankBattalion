@@ -11,7 +11,7 @@ int xb = 0, yb = 0;//cordenadas de bala de tanque
 int xbn = 0, ybn = 0;//cordenadas de bala de enemigo1
 int falb = 0;//actibador de bala
  //Segundo Player
-int xp2 = 50, yp2 = 40;//cordenadas de tanque
+int xp2 = 50, yp2 = 7;//cordenadas de tanque
 int direp2 = 0, direfp2 = 0;//dereccion de tanque
 int xbp2 = 0, ybp2 = 0;//cordenadas de bala de tanque
 int falbp2 = 0;//actibador de bala
@@ -34,6 +34,7 @@ int velo = 0;//velocidad de enemigos
 int vidas = 3;
 int level = 1;
 int score = 0; // Puntuacion;
+int vidasP2 = 3;
 
 //Tank master
 int xmt = 50, ymt = 20; //cordenadas Master tank
@@ -44,6 +45,10 @@ int vmt; // vida master Tank
 int velomt = 0;
 int tankMaster = 0; //cantidad vencidos
 bool ExisteTankMaster = false;
+
+char MurosVerticales[10];
+char MurosHorizontales[10];
+
 
 
 boolean pause = true; //Pausa
@@ -69,6 +74,82 @@ void gotoxy(int x, int y) {
 	dwpos.Y = y;
 	SetConsoleCursorPosition(hcon, dwpos);
 }
+
+//muros
+
+
+//class muros {
+//public:
+//	int *xm;
+//	int *ym;
+//	int *dureza;
+//
+//
+//	muros();
+//	void colocarP(int _x, int _y);
+//	void verMuro();
+//	void seleccionarP();
+//	void romper();
+//
+//	void nivel1();
+//
+//
+//};
+//
+//	muros::muros() {
+//		xm = new int[35];
+//		ym = new int[35];
+//		dureza = new int[35];
+//
+//
+//
+//	}
+//	void muros::colocarP(int _x, int _y) {
+//		HANDLE hCon;
+//		hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+//		COORD dwPos;
+//		dwPos.X = _x;
+//		dwPos.Y = _y;
+//
+//		SetConsoleCursorPosition(hCon, dwPos);
+//	}
+//
+//	void muros::verMuro() {
+//
+//		for (int i = 0; i < 36; i++) {
+//
+//			colocarP(xm[i], ym[i]); printf("%c", 219);
+//			if (i == 10) {
+//				colocarP(xm[i], ym[i]); printf("%c", 146);
+//			}
+//
+//		}
+//
+//	}
+//	void muros::romper() {
+//		for (int i = 0; i < 36; i++) {
+//
+//			if (dureza[i] == 2) {
+//				colocarP(xm[i], ym[i]); printf("%c", 178);
+//			}
+//			else if (dureza[i] == 1) {
+//				colocarP(xm[i], ym[i]); printf("%c", 177);
+//			}
+//			else if (dureza[i] == 0) {
+//
+//				colocarP(xm[i], ym[i]); printf("");
+//
+//
+//			}
+//		}
+//
+//	}
+//	void muros::nivel1() {
+//		xm[0] = 24; ym[0] = 15;          xm[11] = 50; ym[11] = 15;         xm[22] = 76; ym[22] = 15;
+//
+//
+//	}
+//
 
 
 void dibujar() {
@@ -126,9 +207,9 @@ void inicio() {
 	enemigos = 3;
 	ExisteTankMaster = false;
 	gotoxy(40, 20); printf("ARCADE");
-	gotoxy(39, 22); printf("1P VS 2P");
-	gotoxy(40, 24); printf(" STATS");
-	gotoxy(40, 26); printf(" QUIT");
+	gotoxy(40, 22); printf("1P VS 2P");
+	gotoxy(40, 24); printf("STATS");
+	gotoxy(40, 26); printf("QUIT");
 	gotoxy(38, 20); printf(">");
 	sal = 1;
 
@@ -137,35 +218,35 @@ void inicio() {
 		tecla = _getch();
 		if (tecla == 'w' && move2 == 0) {
 			gotoxy(38, 20); printf(">");
-			gotoxy(37, 22); printf(" ");
+			gotoxy(38, 22); printf(" ");
 			gotoxy(38, 24); printf(" ");
-			gotoxy(39, 26); printf(" ");
+			gotoxy(38, 26); printf(" ");
 			pos = 1;
 			move = 1;
 		}
 		else if (tecla == 's'&& move == 1 || tecla == 'w'&& move2 == 1) {
 			gotoxy(38, 20); printf(" ");
-			gotoxy(37, 22); printf(">");
+			gotoxy(38, 22); printf(">");
 			gotoxy(38, 24); printf(" ");
-			gotoxy(39, 26); printf(" ");
+			gotoxy(38, 26); printf(" ");
 			pos = 2;
 			move = 2;
 			move2 = 0;
 		}
 		else if (tecla == 's' && move == 2 || tecla == 'w' && move2 == 2) {
 			gotoxy(38, 20); printf(" ");
-			gotoxy(37, 22); printf(" ");
+			gotoxy(38, 22); printf(" ");
 			gotoxy(38, 24); printf(">");
-			gotoxy(39, 26); printf(" ");
+			gotoxy(38, 26); printf(" ");
 			pos = 3;
 			move2 = 1;
 			move = 3;
 		}
 		else if (tecla == 's' && move == 3) {
 			gotoxy(38, 20); printf(" ");
-			gotoxy(37, 22); printf(" ");
+			gotoxy(38, 22); printf(" ");
 			gotoxy(38, 24); printf(" ");
-			gotoxy(39, 26); printf(">");
+			gotoxy(38, 26); printf(">");
 			pos = 4;
 			move2 = 2;
 		}
@@ -196,7 +277,7 @@ void pintar() {
 	level = 1;
 	vidas = 3;
 	int v = 3;
-	system("color 3"); {
+	system("color 2"); {
 		for (int i = 2; i < 95; i++) {
 			v++;
 			//pintar horizontal
@@ -337,7 +418,7 @@ void minas(int x, int y) {
 	}
 }
 
-//Direccion de las balas
+//Validar contacto de las balas
 void checabala() {
 	//Validar contacto da enmigo 1
 	if (xb == xn && yb == yn +1|| xb == xn  && yb == yn  ||xb == xn +3 && yb == yn + 1 || xb == xn + 3 && yb == yn || xb == xn + 1 && yb == yn + 1 || xb == xn + 1 && yb == yn || xb == xn + 2 && yb == yn + 1 || xb == xn + 2 && yb == yn) {
@@ -377,6 +458,7 @@ void checabala() {
 			morir(xmt, ymt);
 			xmt = 50;
 			ymt = 20;
+			gotoxy(xbmt, ybmt); printf(" ");
 			xbmt = 0;
 			ybmt = 0;
 			PuntuacionMasterTank();
@@ -386,6 +468,13 @@ void checabala() {
 	}
 
 	//balas chocando
+	if (xbn2 == xbn && ybn2 == ybn) {
+		gotoxy(xb, yb); printf(" ");
+		xbn2 = 0;
+		ybn2 = 0;
+		xbn = 0;
+		ybn = 0;
+	}
 	if (xb == xbn && yb == ybn) {
 		gotoxy(xb, yb); printf(" ");
 		xb = 0;
@@ -443,6 +532,36 @@ void checabala() {
 	
 }
 
+bool ValidarMurosDerecha(int x, int y) {
+	for (int i = 0; i < 10; i++) {
+		if (x +3 == 18 & y == 5 + i || x+3 == 19 + i & y== 14 || x+3 == 30 && y==18 + i || x +3== 20 + i && y == 27 || x+3 == 50 && y == 18 + i || x +3== 75 && y == 35 + i || x+3 == 65 + i && y == 34 || x+3 ==84 + i && y == 20 || x+3 == 4 + i && y == 32 || x+3 == 14 + i && y == 32)
+			return false;
+	}
+	return true;
+}
+bool ValidarMurosAbajo(int x, int y) {
+	for (int i = 0; i < 10; i++) {
+		if (x == 18 & y+2 == 5 + i || x == 19 + i & y+2 == 14 || x == 30 && y+2 == 18 + i || x == 20 + i && y+2 == 27 || x  == 50 && y+2 == 18 + i || x == 75 && y+2 == 35 + i || x == 65 + i && y+2 == 34 || x == 84 + i && y+2 == 20 || x == 4 + i && y+2 == 32 || x == 14 + i && y+2 == 32)
+			return false;
+	}
+	return true;
+}
+bool ValidarMurosArriba(int x, int y) {
+	for (int i = 0; i < 10; i++) {
+		if (x == 18 & y - 2 == 5 + i || x == 19 + i & y - 2 == 14 || x == 30 && y - 2 == 18 + i || x == 20 + i && y - 2 == 27 || x == 50 && y - 2 == 18 + i || x == 75 && y - 2 == 35 + i || x == 65 + i && y - 2 == 34 || x == 84 + i && y - 2 == 20 || x == 4 + i && y - 2 == 32 || x == 14 + i && y - 2 == 32)
+			return false;
+	}
+	return true;
+}
+bool ValidarMurosIzquierda(int x, int y) {
+	for (int i = 0; i < 10; i++) {
+		if (x - 1 == 18 & y == 5 + i || x -1 == 19 + i & y == 14 || x - 1 == 30 && y == 18 + i || x -1 == 20 + i && y == 27 || x - 1 == 50 && y == 18 + i || x - 1 == 75 && y == 35 + i || x - 1 == 65 + i && y == 34 || x - 1 == 84 + i && y == 20 || x - 1 == 4 + i && y == 32 || x - 1 == 14 + i && y == 32)
+			return false;
+	}
+	return true;
+}
+
+
 void movermt() {//Tanque enemigo2
 	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY); {
 		time++;
@@ -451,7 +570,7 @@ void movermt() {//Tanque enemigo2
 			xvi = (rand() % 55) + 6;
 		}
 		velomt++;
-		if (xvi > 30 && xvi < 40 && xmt < 90 && velomt == 5) {
+		if (xvi > 30 && xvi < 40 && xmt < 90 && velomt == 5 && ValidarMurosDerecha(xmt,ymt)) {
 			//borrar
 			borrarmt();
 			xmt++;
@@ -460,7 +579,7 @@ void movermt() {//Tanque enemigo2
 			gotoxy(xmt, ymt);     printf("%c%c%c>", 177,219, 177);
 			
 		}
-		if (xvi > 20 && xvi < 30 && xmt > 4 && velomt == 5) {
+		if (xvi > 20 && xvi < 30 && xmt > 4 && velomt == 5 && ValidarMurosIzquierda(xmt,ymt)) {
 			//borrar
 			borrarmt();
 			xmt--;
@@ -469,7 +588,7 @@ void movermt() {//Tanque enemigo2
 			gotoxy(xmt, ymt); printf("<%c%c%c", 177, 219, 177);
 			
 		}
-		if (xvi > 10 && xvi < 19 && ymt < 40 && velomt == 5) {
+		if (xvi > 10 && xvi < 19 && ymt < 40 && velomt == 5 && ValidarMurosAbajo(xmt,ymt)) {
 			//borrar
 			borrarmt();
 			ymt++;
@@ -478,7 +597,7 @@ void movermt() {//Tanque enemigo2
 			gotoxy(xmt, ymt); printf("%c%c%c", 177, 219, 177);
 			gotoxy(xmt, ymt + 1); printf(" v ");
 		}
-		if (xvi > 41 && xvi < 51 && ymt > 4 && velomt == 5) {
+		if (xvi > 41 && xvi < 51 && ymt > 4 && velomt == 5 && ValidarMurosArriba(xmt,ymt)) {
 			//borrar
 			borrarmt();
 			ymt--;
@@ -522,7 +641,7 @@ void movermt() {//Tanque enemigo2
 void movern2() {//Tanque enemigo2
 	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY); {
 		velo++;
-		if (xvi > 30 && xvi < 40 && xn2 < 90 && velo == 5) {
+		if (xvi > 30 && xvi < 40 && xn2 < 90 && velo == 5 && ValidarMurosDerecha(xn2,yn2)) {
 			//borrar
 			borrarn2();
 			xn2++;
@@ -530,7 +649,7 @@ void movern2() {//Tanque enemigo2
 			//dibujarw
 			gotoxy(xn2, yn2); printf("%c%c%c>", 177, 254, 177);
 		}
-		if (xvi > 20 && xvi < 30 && xn2 > 4 && velo == 5) {
+		if (xvi > 20 && xvi < 30 && xn2 > 4 && velo == 5 && ValidarMurosIzquierda(xn2, yn2)) {
 			//borrar
 			borrarn2();
 			xn2--;
@@ -538,7 +657,7 @@ void movern2() {//Tanque enemigo2
 			//dibujar
 			gotoxy(xn2, yn2); printf("<%c%c%c", 177, 254, 177);
 		}
-		if (xvi > 10 && xvi < 19 && yn2 < 40 && velo == 5) {
+		if (xvi > 10 && xvi < 19 && yn2 < 40 && velo == 5 && ValidarMurosAbajo(xn2, yn2)) {
 			//borrar
 			borrarn2();
 			yn2++;
@@ -547,7 +666,7 @@ void movern2() {//Tanque enemigo2
 			gotoxy(xn2, yn2); printf("%c%c%c", 177, 254, 177);
 			gotoxy(xn2, yn2 + 1); printf(" v ");
 		}
-		if (xvi > 41 && xvi < 51 && yn2 > 4 && velo == 5) {
+		if (xvi > 41 && xvi < 51 && yn2 > 4 && velo == 5 && ValidarMurosArriba(xn2, yn2)) {
 			//borrar
 			borrarn2();
 			yn2--;
@@ -586,7 +705,6 @@ void movern2() {//Tanque enemigo2
 		}
 	}
 }
-
 
 
 void balan() {
@@ -706,7 +824,7 @@ void movern() {//Tanque enemigo 1
 			xvi = (rand() % 70) + 6;
 		}
 		velo++;
-		if (xvi > 30 && xvi < 40 && xn > 5 && velo == 5) {
+		if (xvi > 30 && xvi < 40 && xn > 5 && velo == 5 && ValidarMurosIzquierda(xn, yn)) {
 			//borrar
 			borrarn();
 			xn--;
@@ -715,7 +833,7 @@ void movern() {//Tanque enemigo 1
 			gotoxy(xn, yn); printf("<%c%c%c", 177, 254, 177);
 
 		}
-		if (xvi > 20 && xvi < 30 && xn < 90 && velo == 5) {
+		if (xvi > 20 && xvi < 30 && xn < 90 && velo == 5 && ValidarMurosDerecha(xn, yn)) {
 			//borrar
 			borrarn();
 			xn++;
@@ -723,7 +841,7 @@ void movern() {//Tanque enemigo 1
 			//dibujar
 			gotoxy(xn, yn); printf("%c%c%c>", 177, 254, 177);
 		}
-		if (xvi > 10 && xvi < 19 && yn > 4 && velo == 5) {
+		if (xvi > 10 && xvi < 19 && yn > 4 && velo == 5 && ValidarMurosArriba(xn, yn)) {
 			//borrar
 			borrarn();
 			yn--;
@@ -733,7 +851,7 @@ void movern() {//Tanque enemigo 1
 			gotoxy(xn, yn + 1); printf("%c%c%c", 177, 254, 177);
 
 		}
-		if (xvi > 41 && xvi < 51 && yn < 40 && velo == 5) {
+		if (xvi > 41 && xvi < 51 && yn < 40 && velo == 5 && ValidarMurosAbajo(xn, yn)) {
 			//borrar
 			borrarn();
 			yn++;
@@ -805,9 +923,9 @@ void bala() {
 
 void mover() {
 	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
-		if (_kbhit()) {
-			unsigned char tecla = _getch();
-			if (tecla == 'a' && xt > 4 ) {
+		
+			unsigned char tecla = _getch();	
+			if (tecla == 'a' && xt > 4 && ValidarMurosIzquierda(xt,yt)) {
 				//borrar
 				Borrar();
 				xt--;
@@ -817,7 +935,7 @@ void mover() {
 
 			}
 			else {
-				if (tecla == 'd' && xt < 88 ) {
+				if (tecla == 'd' && xt < 88 && ValidarMurosDerecha(xt,yt)) {
 					Borrar();
 					xt++;
 					dire = 0;
@@ -827,7 +945,7 @@ void mover() {
 				}
 			}
 
-			if (tecla == 'w' && yt > 5) {
+			if (tecla == 'w' && yt > 5 && ValidarMurosArriba(xt,yt)) {
 				Borrar();
 				yt--;
 				dire = 2;
@@ -836,7 +954,7 @@ void mover() {
 				gotoxy(xt, yt + 1); printf("%c%c%c", 177, 223, 177);
 			}
 			else {
-				if (tecla == 's' && yt < 43 ) {
+				if (tecla == 's' && yt < 43 && ValidarMurosAbajo(xt,yt)) {
 					Borrar();
 					yt++;
 					dire = 3;
@@ -855,6 +973,7 @@ void mover() {
 			if (tecla == '1') {
 				sal = 1;
 				vidas = -1;
+
 			}
 			
 			if (tecla == ' ' && falb == 0) {
@@ -882,13 +1001,16 @@ void mover() {
 				diref = dire;
 			}
 		}//fin if
-	}
+	
 }
+
+//Dos players
 void moverP2() {
-	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
-		if (_kbhit) {
-			unsigned char tecla2 = _getch();
-			if (tecla2 == 'j' && xp2 > 4) {
+	SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY); {
+		
+		
+			unsigned char tecla = _getch();
+			if (tecla == '4' && xp2 > 4) {
 				//borrar
 				BorrarP2();
 				xp2--;
@@ -898,7 +1020,7 @@ void moverP2() {
 
 			}
 			else {
-				if (tecla2 == 'l' && xp2 < 88) {
+				if (tecla == '6' && xp2 < 88) {
 					BorrarP2();
 					xp2++;
 					direp2 = 0;
@@ -908,7 +1030,7 @@ void moverP2() {
 				}
 			}
 
-			if (tecla2 == 'i' && yp2 > 5) {
+			if (tecla == '8' && yp2 > 5) {
 				BorrarP2();
 				yp2--;
 				direp2 = 2;
@@ -917,7 +1039,7 @@ void moverP2() {
 				gotoxy(xp2, yp2 + 1); printf("%c%c%c", 177, 223, 177);
 			}
 			else {
-				if (tecla2 == 'k' && yp2 < 43) {
+				if (tecla == '5' && yp2 < 43) {
 					BorrarP2();
 					yp2++;
 					direp2 = 3;
@@ -926,37 +1048,39 @@ void moverP2() {
 					gotoxy(xp2, yp2 + 1); printf(" v ");
 				}
 			}
-			if (tecla2 == '0' && falbp2 == 0) {
-				if (direp2 == 0) {
-					xbp2 = xp2 + 5;
+
+		}
+
+		if (tecla == '0' && falbp2 == 0) {
+			if (direp2 == 0) {
+				xbp2 = xp2 + 5;
+				ybp2 = yp2 + 1;
+			}
+			else {
+				if (dire == 1) {
+					xbp2 = xp2 - 1;
 					ybp2 = yp2 + 1;
 				}
-				else {
-					if (direp2 == 1) {
-						xbp2 = xp2 - 1;
-						ybp2 = yp2 + 1;
-					}
-				}
-				if (direp2 == 2) {
-					xbp2 = xp2 + 2;
-					ybp2 = yp2 - 1;
-				}
-				else {
-					if (direp2 == 3) {
-						xbp2 = xp2 + 2;
-						ybp2 = yp2 + 3;
-					}
-				}
-				falbp2 = 1;
-				direfp2 = direp2;
 			}
+			if (direp2 == 2) {
+				xbp2 = xp2 + 2;
+				ybp2 = yp2 - 1;
+			}
+			else {
+				if (direp2 == 3) {
+					xbp2 = xp2 + 2;
+					ybp2 = yp2 + 3;
+				}
+			}
+			falbp2 = 1;
+			direfp2 = direp2;
+		
 		}
-	}
 }
-
 void balaP2(){
-	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
+	SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY); {
 		gotoxy(xbp2, ybp2); printf(" ");
+		
 		if (falbp2 == 1 && xbp2 < 93 && xbp2 > 4 && ybp2 > 4 && ybp2 < 43) {
 			if (direfp2 == 0) {
 				xbp2++;
@@ -981,18 +1105,37 @@ void balaP2(){
 		}
 	}
 }
+void dibujar1vs2() {
+	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
+		gotoxy(xt, yt);   printf("%c%c%c", 177, 223, 177);
+	}
+	SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY); {
+		gotoxy(xp2, yp2);   printf("%c%c%c", 177, 223, 177);
+	}
+}
+void checaBala2Players() {
+	if (xb == xp2 && yb == yp2 || xb == xp2 && yb == yp2 + 1 || xb == xp2 + 1 && yb == yp2 || xb == xp2 + 1 && yb == yp2 + 1 || xb == xp2 + 2 && yb == yp2 || xb == xp2 + 2 && yb == yp2 + 1 || xb == xp2 + 3 && yb == yp2 || xb == xp2 + 3 && yb == yp2 + 1) {
+		falb = 0;
+		xb = 0;
+		yb = 0;
+		morir(xp2, yp2);
+		xp2 = 50, yp2 = 7;
+		gotoxy(xp2, yp2); printf("%c%c%c",177,223,177);
+	}
+}
 
+
+//Datos de partida
 void marcador() {
 
 	gotoxy(96, 4); printf("DESTROYED TANKS");
 	gotoxy(96, 5); printf("%02i/%02i", tanques, enemigos);
-	gotoxy(96, 7); printf("VLIVES");
+	gotoxy(96, 7); printf("LIVES");
 	gotoxy(95, 8); printf(" %02i", vidas);
 	gotoxy(96, 10); printf("LEVEL");
 	gotoxy(96, 11); printf("%02i", level);
 	gotoxy(96, 13); printf("SCORE");
 	gotoxy(96, 14); printf("%02i", score);
-
 	gotoxy(96, 16); printf("HIGH SCORE");
 	gotoxy(96, 17); printf("%02i", Stats[0][1]);
 	
@@ -1011,6 +1154,7 @@ void OcultarCursor() {
 	system("cls");
 }
 
+//Estadisiticas
 void RellenarStats() {
 	for (int i = 0; i < 10; i++) {
 
@@ -1029,21 +1173,20 @@ bool AgregarStats( int puntuacion) {
 	return false;
 }
 void ordenarStats() {
-	int mayor;
+	int mayor=0;
 	for (int i = 0; i < 10; i++) {
 		if (Stats[i][1] < Stats[i + 1][1]) {
 			mayor = Stats[i+1][1];
 			Stats[i+1][1] = Stats[i][1];
 			Stats[i][1] = mayor;
 		}
-
 	}
 }
 void ImprimirStats() {
 	for (int horizotal = 0; horizotal < 30; horizotal++) {
 		gotoxy(90 + horizotal, 15); printf("%c", 205);
 		gotoxy(90 + horizotal, 35); printf("%c", 205);
-		gotoxy(91, 18); printf("Posicion");
+		gotoxy(91, 18); printf("Position");
 		gotoxy(112, 18); printf("Score");
 	}
 	for (int i = 0; i < 10; i++) {
@@ -1051,24 +1194,64 @@ void ImprimirStats() {
 	}
 }
 
+//Muros
+void RellenarMuros() {
+	for (int i = 0; i < 10; i++) {
+		MurosVerticales[i] = '|';
+		MurosHorizontales[i] = '_';
+	}
+}
+
+void ImprimirMuros() {
+	SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY); {
+		for (int i = 0; i < 10; i++) {
+			gotoxy(18, 5 + i); printf("%c", MurosVerticales[i]);
+			gotoxy(19 + i, 14); printf("%c", MurosHorizontales[i]);
+
+			gotoxy(30, 18 + i); printf("%c", MurosVerticales[i]);
+			gotoxy(20 + i, 27); printf("%c", MurosHorizontales[i]);
+
+			gotoxy(50, 18 + i); printf("%c", MurosVerticales[i]);
+
+			gotoxy(75, 35 + i); printf("%c", MurosVerticales[i]);
+			gotoxy(65 + i, 34); printf("%c", MurosHorizontales[i]);
+
+			gotoxy(84 + i, 20); printf("%c", MurosHorizontales[i]);
+			gotoxy(4 + i, 32); printf("%c", MurosHorizontales[i]);
+			gotoxy(14 + i, 32); printf("%c", MurosHorizontales[i]);
+		}
+	}
+}
+
+
 
 int main() {
 	
 	OcultarCursor();
-	system("color 3");
+	system("color 2");
 	RellenarStats();
 	while (sal != 5) {
-		system("cls");
-		
+		system("cls");	
 		inicio();
 		Logo();
 		
+		//Arcade
 		while (sal == 2) {
-			dibujar(); //dibuja el mapa
-			pintar(); //pinta los tanques
+			
+			xt = 50, yt = 40;
+			xn = 6, yn = 10;
+			xn2 = 80, yn2 = 10;
+			xb = 0; yb = 0;
+			xbmt = 0; ybmt = 0;
+			xbn = 0; ybn = 0;
+			xbn2 = 0; ybn2 = 0;
+			ExisteTankMaster = false;
+			RellenarMuros();	
+			dibujar(); //dibuja los tanques
+			pintar(); //pinta el mapa
 			
 			while (vidas > 0) {
-				
+				ImprimirMuros();
 				minas(15, 15);
 				minas(45, 20);
 				minas(27, 6);
@@ -1098,12 +1281,16 @@ int main() {
 					movermt();
 					balamt();
 				}
-				mover();
+				if (_kbhit()) {
+					mover();
+				}
 				bala();
 				checabala();
-				Sleep(40);
+				Sleep(20);
 				if (vidas == 0 || level ==6) {
-					AgregarStats(score);
+					if (sal != 1) 
+						AgregarStats(score);
+					
 					sal = 1;
 					score = 0;
 					tanques = 0;
@@ -1119,23 +1306,25 @@ int main() {
 		//Dos players
 		while (sal == 3) {
 			pintar();
-			while (sal == 3) {
-				checabala();
-				mover();
-				bala();
-				moverP2();
+			dibujar1vs2();
+			while (vidas > 0 || vidasP2 > 0 || sal==3) {
+				checaBala2Players();
+				if (_kbhit) {
+					mover();
+					moverP2();		
+				}
 				balaP2();
-				
+				bala();
+				Sleep(20);
 			}
 		}
-
 		//Estadistias
 		while (sal == 4) {
 			system("cls");
 			while (sal == 4) {
 				Logo2();
 				ordenarStats();
-				 ImprimirStats();
+				ImprimirStats();
 				if (_kbhit()) {
 					unsigned char tecla = _getch();
 					if (tecla == '1') {
