@@ -115,11 +115,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Mapa.cpp" />
+    <ClCompile Include="Stats.cpp" />
     <ClCompile Include="TankBattalion.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TankBattalio.h" />
+    <ClInclude Include="stats.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

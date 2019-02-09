@@ -18,12 +18,12 @@
     <ClCompile Include="TankBattalion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mapa.cpp">
+    <ClCompile Include="Stats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TankBattalio.h">
+    <ClInclude Include="stats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
