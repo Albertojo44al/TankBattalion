@@ -1007,13 +1007,15 @@ void OcultarCursor() {
 	system("cls");
 }
 
-bool AgregarStats( int puntuacion) {
+void RellenarStats() {
+	for (int i = 0; i < 10; i++) {
 
-
-
-	for (int i = 0; i < 10; i++) { 
-		Stats[i][0] = i+1;
+		Stats[i][0] = i + 1;
 		Stats[i][1] = 0;
+	}
+}
+bool AgregarStats( int puntuacion) {
+	for (int i = 0; i < 10; i++) { 
 
 		if (Stats[i][1] == 0) {
 			Stats[i][1] = puntuacion;
@@ -1040,6 +1042,7 @@ int main() {
 	
 	OcultarCursor();
 	system("color 3");
+	RellenarStats();
 	while (sal != 5) {
 		system("cls");
 		
