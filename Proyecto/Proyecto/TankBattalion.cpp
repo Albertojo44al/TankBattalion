@@ -37,7 +37,7 @@ int score = 0; // Puntuacion;
 int vidasP2 = 3;
 
 //Tank master
-int xmt = 50, ymt = 20; //cordenadas Master tank
+int xmt = 50, ymt = 10; //cordenadas Master tank
 int diremt = 0, direfmt = 0; // direccion master tank
 int falbmt = 0; // activador bala master tank;
 int xbmt, ybmt; // cordenadas de bala master tank;
@@ -205,6 +205,7 @@ void inicio() {
 	vidas = 3;
 	tanques = 0;
 	enemigos = 3;
+	score = 0;
 	ExisteTankMaster = false;
 	gotoxy(40, 20); printf("ARCADE");
 	gotoxy(40, 22); printf("1P VS 2P");
@@ -896,28 +897,34 @@ void bala() {
 		gotoxy(xb, yb); printf(" ");
 		if (falb == 1 && xb < 93 && xb > 4 && yb > 4 && yb < 43 ) {
 			if (diref == 0 ) {
-				if (ValidarMurosDerecha(xb, yb)) 
+				if (!ValidarMurosDerecha(xb, yb)) {
+					falb = 1;
+					xb = 0;
+					yb = 0;
+				}
 					xb++;
 			}
 			else {
 				if (diref == 1 ) {
+					xb--;
 					if (!ValidarMurosIzquierda(xb, yb)) {
 						gotoxy(xb, yb); printf(" ");
 						falb = 1;
 						xb = 0;
 						yb = 0;
 					}
-					xb--;
+					
 				}
 			}
 			if (diref == 2 ) {
+				yb--;
 				if (!ValidarMurosArriba(xb, yb)) {
 					gotoxy(xb, yb); printf(" ");	
 					falb = 1;
 					xb = 0;
 					yb = 0;
 				}
-				yb--;
+				
 			}
 			else {
 				if (diref == 3  ) {
@@ -1038,17 +1045,14 @@ void moverP2() {
 				gotoxy(xp2, yp2); printf("<%c%c%c", 177, 223, 177);
 
 			}
-			else {
-				if (tecla == '6' && xp2 < 88) {
-					BorrarP2();
-					xp2++;
-					direp2 = 0;
-					//dibujar
-					gotoxy(xp2, yp2); printf("%c%c%c>", 177, 223, 177);
+			if (tecla == '6' && xp2 < 88) {
+				BorrarP2();
+				xp2++;
+				direp2 = 0;
+				//dibujar
+				gotoxy(xp2, yp2); printf("%c%c%c>", 177, 223, 177);
 
-				}
 			}
-
 			if (tecla == '8' && yp2 > 5) {
 				BorrarP2();
 				yp2--;
@@ -1057,63 +1061,83 @@ void moverP2() {
 				gotoxy(xp2, yp2); printf(" ^ ");
 				gotoxy(xp2, yp2 + 1); printf("%c%c%c", 177, 223, 177);
 			}
-			else {
-				if (tecla == '5' && yp2 < 43) {
-					BorrarP2();
-					yp2++;
-					direp2 = 3;
-					//dibujar
-					gotoxy(xp2, yp2); printf("%c%c%c", 177, 223, 177);
-					gotoxy(xp2, yp2 + 1); printf(" v ");
-				}
+			if (tecla == '5' && yp2 < 43) {
+				BorrarP2();
+				yp2++;
+				direp2 = 3;
+				//dibujar
+				gotoxy(xp2, yp2); printf("%c%c%c", 177, 223, 177);
+				gotoxy(xp2, yp2 + 1); printf(" v ");
 			}
-
-		}
-
-		if (tecla == '0' && falbp2 == 0) {
-			if (direp2 == 0) {
-				xbp2 = xp2 + 5;
-				ybp2 = yp2 + 1;
-			}
-			else {
-				if (dire == 1) {
-					xbp2 = xp2 - 1;
+			if (tecla == '0' && falbp2 == 0) {
+				if (direp2 == 0) {
+					xbp2 = xp2 + 5;
 					ybp2 = yp2 + 1;
 				}
-			}
-			if (direp2 == 2) {
-				xbp2 = xp2 + 2;
-				ybp2 = yp2 - 1;
-			}
-			else {
-				if (direp2 == 3) {
-					xbp2 = xp2 + 2;
-					ybp2 = yp2 + 3;
+				else {
+					if (dire == 1) {
+						xbp2 = xp2 - 1;
+						ybp2 = yp2 + 1;
+					}
 				}
+				if (direp2 == 2) {
+					xbp2 = xp2 + 2;
+					ybp2 = yp2 - 1;
+				}
+				else {
+					if (direp2 == 3) {
+						xbp2 = xp2 + 2;
+						ybp2 = yp2 + 3;
+					}
+				}
+				falbp2 = 1;
+				direfp2 = direp2;
+
 			}
-			falbp2 = 1;
-			direfp2 = direp2;
-		
 		}
 }
 void balaP2(){
 	SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY); {
 		gotoxy(xbp2, ybp2); printf(" ");
-		
 		if (falbp2 == 1 && xbp2 < 93 && xbp2 > 4 && ybp2 > 4 && ybp2 < 43) {
 			if (direfp2 == 0) {
+				if (!ValidarMurosDerecha(xbp2, ybp2)) {
+					falbp2 = 1;
+					xbp2 = 0;
+					ybp2 = 0;
+				}
 				xbp2++;
 			}
 			else {
 				if (direfp2 == 1) {
 					xbp2--;
+					if (!ValidarMurosIzquierda(xbp2, ybp2)) {
+						gotoxy(xbp2, ybp2); printf(" ");
+						falbp2 = 1;
+						xbp2 = 0;
+						ybp2 = 0;
+					}
+
 				}
 			}
 			if (direfp2 == 2) {
 				ybp2--;
+				if (!ValidarMurosArriba(xbp2, ybp2)) {
+					gotoxy(xbp2, ybp2); printf(" ");
+					falbp2 = 1;
+					xbp2 = 0;
+					ybp2 = 0;
+				}
+
 			}
 			else {
 				if (direfp2 == 3) {
+					if (!ValidarMurosAbajo(xbp2, ybp2)) {
+						gotoxy(xbp2, ybp2); printf(" ");
+						falbp2 = 1;
+						xbp2 = 0;
+						ybp2 = 0;
+					}
 					ybp2++;
 				}
 			}
@@ -1140,6 +1164,20 @@ void checaBala2Players() {
 		morir(xp2, yp2);
 		xp2 = 50, yp2 = 7;
 		gotoxy(xp2, yp2); printf("%c%c%c",177,223,177);
+	}
+	if (xbp2 == xt && ybp2 == yt || xbp2 == xt && ybp2 == yt + 1 || xbp2 == xt + 1 && ybp2 == yt || xbp2 == xt + 1 && ybp2 == yt + 1 || xbp2 == xt + 2 && ybp2 == yt || xbp2 == xt + 2 && ybp2 == yt + 1 || xbp2 == xt + 3 && ybp2 == yt || xbp2 == xt + 3 && ybp2 == yt + 1) {
+		falbp2 = 0;
+		xbp2 = 0;
+		ybp2 = 0;
+		morir(xt, yt);
+		xt = 50, yt = 40;
+		gotoxy(xt, yt); printf("%c%c%c", 177, 223, 177);
+	}
+	if (xbp2 + 1 == xb + 1 && ybp2 == yb || xbp2 == xb && ybp2 + 1 == yb + 1 || xbp2 == yb && ybp2 == yb) {
+		gotoxy(xb, yb); printf(" ");
+		gotoxy(xbp2, ybp2); printf(" ");
+		xb = 0; yb = 0;
+		xbp2 = 0; ybp2=0;
 	}
 }
 
@@ -1305,11 +1343,9 @@ int main() {
 				}
 				bala();
 				checabala();
-				Sleep(20);
+				Sleep(10);
 				if (vidas == 0 || level ==6) {
-					if (sal != 1) 
-						AgregarStats(score);
-					
+					AgregarStats(score);
 					sal = 1;
 					score = 0;
 					tanques = 0;
@@ -1330,11 +1366,11 @@ int main() {
 				checaBala2Players();
 				if (_kbhit) {
 					mover();
-					moverP2();		
+					moverP2();	
 				}
 				balaP2();
 				bala();
-				Sleep(20);
+				Sleep(10);
 			}
 		}
 		//Estadistias
