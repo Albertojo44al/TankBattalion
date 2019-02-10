@@ -894,20 +894,39 @@ void movern() {//Tanque enemigo 1
 void bala() {
 	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY); {
 		gotoxy(xb, yb); printf(" ");
-		if (falb == 1 && xb < 93 && xb > 4 && yb > 4 && yb < 43) {
-			if (diref == 0) {
-				xb++;
+		if (falb == 1 && xb < 93 && xb > 4 && yb > 4 && yb < 43 ) {
+			if (diref == 0 ) {
+				if (ValidarMurosDerecha(xb, yb)) 
+					xb++;
 			}
 			else {
-				if (diref == 1) {
+				if (diref == 1 ) {
+					if (!ValidarMurosIzquierda(xb, yb)) {
+						gotoxy(xb, yb); printf(" ");
+						falb = 1;
+						xb = 0;
+						yb = 0;
+					}
 					xb--;
 				}
 			}
-			if (diref == 2) {
+			if (diref == 2 ) {
+				if (!ValidarMurosArriba(xb, yb)) {
+					gotoxy(xb, yb); printf(" ");	
+					falb = 1;
+					xb = 0;
+					yb = 0;
+				}
 				yb--;
 			}
 			else {
-				if (diref == 3) {
+				if (diref == 3  ) {
+					if (!ValidarMurosAbajo(xb, yb)) {
+						gotoxy(xb, yb); printf(" ");
+						falb = 1;
+						xb = 0;
+						yb = 0;
+					}
 					yb++;
 				}
 			}
