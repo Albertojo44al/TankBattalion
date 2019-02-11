@@ -916,6 +916,7 @@ void bala() {
 		if (falb == 1 && xb < 93 && xb > 4 && yb > 4 && yb < 43 ) {
 			if (diref == 0 ) {
 				if (!ValidarMurosDerecha(xb, yb)) {
+					gotoxy(xb, yb); printf(" ");
 					falb = 1;
 					xb = 0;
 					yb = 0;
@@ -1427,9 +1428,11 @@ int main() {
 		system("cls");	
 		inicio();
 		Logo();
+		
 		//Arcade
 		while (sal == 2) {
 			gotoxy(150, 3); printf("Press 'x' to exit");
+		
 			xt = 50, yt = 40;
 			xn = 6, yn = 10;
 			xn2 = 80, yn2 = 10;
@@ -1470,6 +1473,7 @@ int main() {
 					mover();
 				}
 				bala();
+				
 				BorrarMurosTrofeosP1();
 				checabala();
 				Velocidad();
@@ -1519,6 +1523,8 @@ int main() {
 				}
 				if (Trofeo1player() || vidas == 0) {
 					sal = 1;
+					xbp2 = 1000;
+					ybp2 = 1000;
 					gotoxy(40, 20); printf("PLAYER 2 WIN!!");
 					Sleep(1000);
 					gotoxy(40, 20); printf("               ");
